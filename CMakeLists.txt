@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.20)
+project(Moteur3DCPU LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include(FetchContent)
+FetchContent_Declare(
+    SDL3
+    URL https://github.com/libsdl-org/SDL/archive/refs/tags/release-3.2.18.zip
+)
+set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+set(SDL_STATIC ON  CACHE BOOL "" FORCE)
+set(SDL_TEST_LIBRARY OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(SDL3)
+
+add_executable(Moteur3DCPU src/main.cpp)
+target_link_libraries(Moteur3DCPU PRIVATE SDL3::SDL3)
