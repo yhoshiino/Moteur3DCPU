@@ -107,11 +107,11 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				}
 			],
 			"language" : "CXX",

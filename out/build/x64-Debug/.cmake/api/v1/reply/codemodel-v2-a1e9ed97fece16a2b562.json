@@ -121,21 +121,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Moteur3DCPU::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Moteur3DCPU-Debug-166f3ba025e0282e1ce8.json",
+					"jsonFile" : "target-Moteur3DCPU-Debug-24c4f60838c33f783955.json",
 					"name" : "Moteur3DCPU",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "SDL3-static::@405c074760d2f6728126",
-					"jsonFile" : "target-SDL3-static-Debug-da8fcb9d580771a28018.json",
+					"jsonFile" : "target-SDL3-static-Debug-146ad1fa9e18e96da029.json",
 					"name" : "SDL3-static",
 					"projectIndex" : 1
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "SDL_uclibc::@405c074760d2f6728126",
-					"jsonFile" : "target-SDL_uclibc-Debug-d07a4263231dbd6a1116.json",
+					"jsonFile" : "target-SDL_uclibc-Debug-a66ded4fcf0d66ac2343.json",
 					"name" : "SDL_uclibc",
 					"projectIndex" : 1
 				}
@@ -145,8 +145,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug",
-		"source" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU"
+		"build" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug",
+		"source" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
 	},
 	"version" : 
 	{

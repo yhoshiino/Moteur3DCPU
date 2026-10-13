@@ -39,7 +39,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "d:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -123,10 +123,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe"
 		},
 		{
@@ -235,10 +235,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe"
 		},
 		{
@@ -483,7 +483,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -543,7 +543,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -747,7 +747,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/install/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_INSTALL_RUNSTATEDIR",
@@ -1566,42 +1566,6 @@
 			"value" : "1"
 		},
 		{
-			"name" : "Cpu3DRenderer_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug"
-		},
-		{
-			"name" : "Cpu3DRenderer_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "Cpu3DRenderer_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU"
-		},
-		{
 			"name" : "FETCHCONTENT_BASE_DIR",
 			"properties" : 
 			[
@@ -1611,7 +1575,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug/_deps"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps"
 		},
 		{
 			"name" : "FETCHCONTENT_FULLY_DISCONNECTED",
@@ -3607,7 +3571,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "Moteur3DCPU_IS_TOP_LEVEL",
@@ -3631,7 +3595,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
 		},
 		{
 			"name" : "PKG_CONFIG_ARGN",
@@ -3675,7 +3639,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
 		},
 		{
 			"name" : "SDL3_IS_TOP_LEVEL",
@@ -3699,7 +3663,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
 		},
 		{
 			"name" : "SDL_ALSA",
@@ -4823,7 +4787,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/yhosh/source/repos/Moteur3DCPU/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/install/x64-Debug"
 		}
 	],
 	"kind" : "cache",
