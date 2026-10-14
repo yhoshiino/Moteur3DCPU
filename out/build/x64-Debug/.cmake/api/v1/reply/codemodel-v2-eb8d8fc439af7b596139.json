@@ -128,14 +128,14 @@
 				{
 					"directoryIndex" : 1,
 					"id" : "SDL3-static::@405c074760d2f6728126",
-					"jsonFile" : "target-SDL3-static-Debug-146ad1fa9e18e96da029.json",
+					"jsonFile" : "target-SDL3-static-Debug-11f711dcdb4fdca2af06.json",
 					"name" : "SDL3-static",
 					"projectIndex" : 1
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "SDL_uclibc::@405c074760d2f6728126",
-					"jsonFile" : "target-SDL_uclibc-Debug-a66ded4fcf0d66ac2343.json",
+					"jsonFile" : "target-SDL_uclibc-Debug-0531196742dd67bf7b16.json",
 					"name" : "SDL_uclibc",
 					"projectIndex" : 1
 				}
