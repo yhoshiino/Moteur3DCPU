@@ -82,18 +82,6 @@
 			}
 		]
 	},
-	"codemodelVersion" : 
-	{
-		"major" : 2,
-		"minor" : 10
-	},
-	"compileDependencies" : 
-	[
-		{
-			"backtrace" : 2,
-			"id" : "SDL3-static::@405c074760d2f6728126"
-		}
-	],
 	"compileGroups" : 
 	[
 		{
@@ -107,11 +95,11 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				}
 			],
 			"language" : "CXX",
@@ -146,11 +134,7 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "/machine:x64 /debug /INCREMENTAL",
-				"role" : "flags"
-			},
-			{
-				"fragment" : "/subsystem:console",
+				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
 				"role" : "flags"
 			},
 			{
@@ -230,13 +214,6 @@
 		],
 		"language" : "CXX"
 	},
-	"linkLibraries" : 
-	[
-		{
-			"backtrace" : 2,
-			"id" : "SDL3-static::@405c074760d2f6728126"
-		}
-	],
 	"name" : "Moteur3DCPU",
 	"nameOnDisk" : "Moteur3DCPU.exe",
 	"paths" : 
