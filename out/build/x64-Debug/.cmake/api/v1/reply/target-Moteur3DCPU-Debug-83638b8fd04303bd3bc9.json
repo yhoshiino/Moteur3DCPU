@@ -17,6 +17,7 @@
 			"target_link_libraries",
 			"sdl_generic_link_dependency",
 			"sdl_link_dependency",
+			"target_compile_definitions",
 			"target_include_directories"
 		],
 		"files" : 
@@ -33,13 +34,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 18,
+				"line" : 19,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 22,
+				"line" : 24,
 				"parent" : 0
 			},
 			{
@@ -84,7 +85,19 @@
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 20,
+				"line" : 26,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 22,
 				"parent" : 0
 			}
 		]
@@ -95,14 +108,25 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd"
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 10,
+					"define" : "WARP_ASSET_DIR=\"C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/assets\""
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 10,
+					"backtrace" : 11,
 					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/header"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/assets"
 				},
 				{
 					"backtrace" : 2,
@@ -120,7 +144,7 @@
 				[
 					1
 				],
-				"standard" : "17"
+				"standard" : "20"
 			},
 			"sourceIndexes" : 
 			[
@@ -246,7 +270,9 @@
 			"sourceIndexes" : 
 			[
 				1,
-				2
+				2,
+				3,
+				4
 			]
 		}
 	],
@@ -266,6 +292,16 @@
 		{
 			"backtrace" : 1,
 			"path" : "header/mat.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/obj.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/texture.h",
 			"sourceGroupIndex" : 1
 		}
 	],

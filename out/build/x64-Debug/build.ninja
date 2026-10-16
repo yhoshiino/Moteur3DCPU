@@ -50,8 +50,9 @@ cmake_ninja_workdir = C$:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\out\buil
 build cmake_object_order_depends_target_Moteur3DCPU: phony || cmake_object_order_depends_target_SDL3-static
 
 build CMakeFiles\Moteur3DCPU.dir\src\main.cpp.obj: CXX_COMPILER__Moteur3DCPU_unscanned_Debug C$:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\src\main.cpp || cmake_object_order_depends_target_Moteur3DCPU
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd
-  INCLUDES = -IC:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\header -IC:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\out\build\x64-Debug\_deps\sdl3-build\include-revision -IC:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\out\build\x64-Debug\_deps\sdl3-src\include
+  DEFINES = -DWARP_ASSET_DIR=\"C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/assets\"
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd
+  INCLUDES = -IC:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\header -IC:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\assets -IC:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\out\build\x64-Debug\_deps\sdl3-build\include-revision -IC:\Users\npeygourdi\Documents\GitHub\Moteur3DCPU\out\build\x64-Debug\_deps\sdl3-src\include
   OBJECT_DIR = CMakeFiles\Moteur3DCPU.dir
   OBJECT_FILE_DIR = CMakeFiles\Moteur3DCPU.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Moteur3DCPU.dir\
