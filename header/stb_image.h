@@ -1783,12 +1783,12 @@ static unsigned char* stbi__convert_format(unsigned char* data, int img_n, int r
             STBI__CASE(2, 1) { dest[0] = src[0]; } break;
             STBI__CASE(2, 3) { dest[0] = dest[1] = dest[2] = src[0]; } break;
             STBI__CASE(2, 4) { dest[0] = dest[1] = dest[2] = src[0]; dest[3] = src[1]; } break;
-            STBI__CASE(3, 4) { dest[0] = src[0]; dest[1] = src[1]; dest[2] = src[2]; dest[3] = 255; } break;
+            STBI__CASE(3, 4) { dest[0] = src[0];dest[1] = src[1];dest[2] = src[2];dest[3] = 255; } break;
             STBI__CASE(3, 1) { dest[0] = stbi__compute_y(src[0], src[1], src[2]); } break;
             STBI__CASE(3, 2) { dest[0] = stbi__compute_y(src[0], src[1], src[2]); dest[1] = 255; } break;
             STBI__CASE(4, 1) { dest[0] = stbi__compute_y(src[0], src[1], src[2]); } break;
             STBI__CASE(4, 2) { dest[0] = stbi__compute_y(src[0], src[1], src[2]); dest[1] = src[3]; } break;
-            STBI__CASE(4, 3) { dest[0] = src[0]; dest[1] = src[1]; dest[2] = src[2]; } break;
+            STBI__CASE(4, 3) { dest[0] = src[0];dest[1] = src[1];dest[2] = src[2]; } break;
         default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return stbi__errpuc("unsupported", "Unsupported format conversion");
         }
 #undef STBI__CASE
@@ -1840,12 +1840,12 @@ static stbi__uint16* stbi__convert_format16(stbi__uint16* data, int img_n, int r
             STBI__CASE(2, 1) { dest[0] = src[0]; } break;
             STBI__CASE(2, 3) { dest[0] = dest[1] = dest[2] = src[0]; } break;
             STBI__CASE(2, 4) { dest[0] = dest[1] = dest[2] = src[0]; dest[3] = src[1]; } break;
-            STBI__CASE(3, 4) { dest[0] = src[0]; dest[1] = src[1]; dest[2] = src[2]; dest[3] = 0xffff; } break;
+            STBI__CASE(3, 4) { dest[0] = src[0];dest[1] = src[1];dest[2] = src[2];dest[3] = 0xffff; } break;
             STBI__CASE(3, 1) { dest[0] = stbi__compute_y_16(src[0], src[1], src[2]); } break;
             STBI__CASE(3, 2) { dest[0] = stbi__compute_y_16(src[0], src[1], src[2]); dest[1] = 0xffff; } break;
             STBI__CASE(4, 1) { dest[0] = stbi__compute_y_16(src[0], src[1], src[2]); } break;
             STBI__CASE(4, 2) { dest[0] = stbi__compute_y_16(src[0], src[1], src[2]); dest[1] = src[3]; } break;
-            STBI__CASE(4, 3) { dest[0] = src[0]; dest[1] = src[1]; dest[2] = src[2]; } break;
+            STBI__CASE(4, 3) { dest[0] = src[0];dest[1] = src[1];dest[2] = src[2]; } break;
         default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return (stbi__uint16*)stbi__errpuc("unsupported", "Unsupported format conversion");
         }
 #undef STBI__CASE
@@ -6443,7 +6443,7 @@ static int stbi__pic_test_core(stbi__context* s)
     if (!stbi__pic_is4(s, "\x53\x80\xF6\x34"))
         return 0;
 
-    for (i = 0; i < 84; ++i)
+    for (i = 0;i < 84;++i)
         stbi__get8(s);
 
     if (!stbi__pic_is4(s, "PICT"))
@@ -6475,7 +6475,7 @@ static void stbi__copyval(int channel, stbi_uc* dest, const stbi_uc* src)
 {
     int mask = 0x80, i;
 
-    for (i = 0; i < 4; ++i, mask >>= 1)
+    for (i = 0;i < 4; ++i, mask >>= 1)
         if (channel & mask)
             dest[i] = src[i];
 }
@@ -6522,7 +6522,7 @@ static stbi_uc* stbi__pic_load_core(stbi__context* s, int width, int height, int
             case 0: {//uncompressed
                 int x;
 
-                for (x = 0; x < width; ++x, dest += 4)
+                for (x = 0;x < width;++x, dest += 4)
                     if (!stbi__readval(s, packet->channel, dest))
                         return 0;
                 break;
@@ -6569,14 +6569,14 @@ static stbi_uc* stbi__pic_load_core(stbi__context* s, int width, int height, int
                         if (!stbi__readval(s, packet->channel, value))
                             return 0;
 
-                        for (i = 0; i < count; ++i, dest += 4)
+                        for (i = 0;i < count;++i, dest += 4)
                             stbi__copyval(packet->channel, dest, value);
                     }
                     else { // Raw
                         ++count;
                         if (count > left) return stbi__errpuc("bad file", "scanline overrun");
 
-                        for (i = 0; i < count; ++i, dest += 4)
+                        for (i = 0;i < count;++i, dest += 4)
                             if (!stbi__readval(s, packet->channel, dest))
                                 return 0;
                     }

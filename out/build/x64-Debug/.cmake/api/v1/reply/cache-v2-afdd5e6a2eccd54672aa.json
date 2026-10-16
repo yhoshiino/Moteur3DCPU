@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/lib.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lib.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -39,7 +39,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "c:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -51,7 +51,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "3"
+			"value" : "4"
 		},
 		{
 			"name" : "CMAKE_CACHE_MINOR_VERSION",
@@ -63,7 +63,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "31"
+			"value" : "3"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -75,7 +75,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "6"
+			"value" : "1"
 		},
 		{
 			"name" : "CMAKE_COMMAND",
@@ -87,7 +87,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -99,7 +99,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cpack.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -111,7 +111,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -123,11 +123,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe"
+			"type" : "STRING",
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -235,11 +235,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe"
+			"type" : "STRING",
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -483,7 +483,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -543,7 +543,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -747,7 +747,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_INSTALL_RUNSTATEDIR",
@@ -827,7 +827,19 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/link.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.exe"
+		},
+		{
+			"name" : "CMAKE_LIST_FILE_NAME",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Name of CMakeLists files to read"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "CMakeLists.txt"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -839,7 +851,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -935,7 +947,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.28000.0/x64/mt.exe"
+			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/mt.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -960,6 +972,18 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "1"
+		},
+		{
+			"name" : "CMAKE_PROJECT_COMPAT_VERSION",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_PROJECT_DESCRIPTION",
@@ -996,6 +1020,18 @@
 			],
 			"type" : "STATIC",
 			"value" : "Moteur3DCPU"
+		},
+		{
+			"name" : "CMAKE_PROJECT_SPDX_LICENSE",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_PROJECT_VERSION",
@@ -1083,7 +1119,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.28000.0/x64/rc.exe"
+			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/rc.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1187,7 +1223,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.31"
+			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.3"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1311,7 +1347,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during the creation of static libraries during all build types."
+					"value" : "Flags used by the archiver during the creation of static libraries during all build types."
 				}
 			],
 			"type" : "STRING",
@@ -1327,7 +1363,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during the creation of static libraries during DEBUG builds."
+					"value" : "Flags used by the archiver during the creation of static libraries during DEBUG builds."
 				}
 			],
 			"type" : "STRING",
@@ -1343,7 +1379,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during the creation of static libraries during MINSIZEREL builds."
+					"value" : "Flags used by the archiver during the creation of static libraries during MINSIZEREL builds."
 				}
 			],
 			"type" : "STRING",
@@ -1359,7 +1395,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during the creation of static libraries during RELEASE builds."
+					"value" : "Flags used by the archiver during the creation of static libraries during RELEASE builds."
 				}
 			],
 			"type" : "STRING",
@@ -1375,7 +1411,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during the creation of static libraries during RELWITHDEBINFO builds."
+					"value" : "Flags used by the archiver during the creation of static libraries during RELWITHDEBINFO builds."
 				}
 			],
 			"type" : "STRING",
@@ -1539,7 +1575,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps"
 		},
 		{
 			"name" : "FETCHCONTENT_FULLY_DISCONNECTED",
@@ -1578,18 +1614,6 @@
 			"value" : ""
 		},
 		{
-			"name" : "FETCHCONTENT_SOURCE_DIR_STB",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "When not empty, overrides where to find pre-populated content for stb"
-				}
-			],
-			"type" : "PATH",
-			"value" : ""
-		},
-		{
 			"name" : "FETCHCONTENT_UPDATES_DISCONNECTED",
 			"properties" : 
 			[
@@ -1614,18 +1638,6 @@
 			"value" : "OFF"
 		},
 		{
-			"name" : "FETCHCONTENT_UPDATES_DISCONNECTED_STB",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Enables UPDATE_DISCONNECTED behavior just for population of stb"
-				}
-			],
-			"type" : "BOOL",
-			"value" : "OFF"
-		},
-		{
 			"name" : "GIT_EXECUTABLE",
 			"properties" : 
 			[
@@ -1639,7 +1651,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "GIT_EXECUTABLE-NOTFOUND"
+			"value" : "D:/Git/Git/cmd/git.exe"
 		},
 		{
 			"name" : "HAVE_ALLOCA_H",
@@ -3559,7 +3571,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "Moteur3DCPU_IS_TOP_LEVEL",
@@ -3583,7 +3595,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU"
 		},
 		{
 			"name" : "PKG_CONFIG_ARGN",
@@ -3627,7 +3639,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
 		},
 		{
 			"name" : "SDL3_IS_TOP_LEVEL",
@@ -3651,7 +3663,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
 		},
 		{
 			"name" : "SDL_ALSA",
@@ -4775,7 +4787,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "C:/Users/maeva/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
 		}
 	],
 	"kind" : "cache",
