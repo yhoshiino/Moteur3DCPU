@@ -16,7 +16,9 @@
 			"add_executable",
 			"target_link_libraries",
 			"sdl_generic_link_dependency",
-			"sdl_link_dependency"
+			"sdl_link_dependency",
+			"target_compile_definitions",
+			"target_include_directories"
 		],
 		"files" : 
 		[
@@ -32,13 +34,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 18,
+				"line" : 19,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 19,
+				"line" : 24,
 				"parent" : 0
 			},
 			{
@@ -79,27 +81,72 @@
 				"file" : 1,
 				"line" : 56,
 				"parent" : 8
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 26,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
 			}
 		]
 	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"compileDependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "SDL3-static::@405c074760d2f6728126"
+		}
+	],
 	"compileGroups" : 
 	[
 		{
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd"
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 10,
+					"define" : "WARP_ASSET_DIR=\"D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets\""
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 2,
-					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"backtrace" : 11,
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/header"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				}
 			],
 			"language" : "CXX",
@@ -109,7 +156,7 @@
 				[
 					1
 				],
-				"standard" : "17"
+				"standard" : "20"
 			},
 			"sourceIndexes" : 
 			[
@@ -134,7 +181,11 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
+				"fragment" : "/machine:x64 /debug /INCREMENTAL",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/subsystem:console",
 				"role" : "flags"
 			},
 			{
@@ -214,6 +265,13 @@
 		],
 		"language" : "CXX"
 	},
+	"linkLibraries" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "SDL3-static::@405c074760d2f6728126"
+		}
+	],
 	"name" : "Moteur3DCPU",
 	"nameOnDisk" : "Moteur3DCPU.exe",
 	"paths" : 
@@ -229,6 +287,16 @@
 			[
 				0
 			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4
+			]
 		}
 	],
 	"sources" : 
@@ -238,6 +306,26 @@
 			"compileGroupIndex" : 0,
 			"path" : "src/main.cpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/vec.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/mat.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/obj.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/texture.h",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"
