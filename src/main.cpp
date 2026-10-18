@@ -32,6 +32,7 @@
 #include "obj.h"
 #include "texture.h"
 
+// Nico
 #define WIDTH  800
 #define HEIGHT 600
 
@@ -42,32 +43,43 @@
 // Ambient floor: how lit a surface is even when it faces away from
 // the light. 0.0 = pitch black on the dark side; 1.0 = no shading
 // at all. 0.18 keeps the texture readable in shadow.
+
+// Nico
 #define AMBIENT 0.18f
 
+// Tarik
 static uint32_t framebuffer[WIDTH * HEIGHT];
 static float    zbuffer[WIDTH * HEIGHT];
 
+// Nico
 static inline uint32_t rgb(uint8_t r, uint8_t g, uint8_t b) {
-    return ((uint32_t)0xFFu << 24) | ((uint32_t)r << 16)
-        | ((uint32_t)g << 8) | (uint32_t)b;
+    return ((uint32_t)0xFFu << 24) 
+        | ((uint32_t)r << 16)
+        | ((uint32_t)g << 8) |
+          (uint32_t)b;
 }
 
+// Tarik
 static void clear(uint32_t color) {
     for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
 }
-
+// Tarik
 static void clear_zbuffer(void) {
     for (int i = 0; i < WIDTH * HEIGHT; i++) zbuffer[i] = 1e30f;
 }
 
+// Nico
 static inline int edge(int ax, int ay, int bx, int by, int px, int py) {
     return (bx - ax) * (py - ay) - (by - ay) * (px - ax);
 }
 
+// Nico
 static inline int clampi(int v, int lo, int hi) {
     return v < lo ? lo : (v > hi ? hi : v);
 }
 
+
+// Nico
 // Scale an ARGB texel by a brightness in [0, 1], per channel.
 static inline uint32_t color_scale(uint32_t c, float k) {
     if (k < 0.0f) k = 0.0f;
@@ -78,6 +90,7 @@ static inline uint32_t color_scale(uint32_t c, float k) {
     return ((uint32_t)0xFFu << 24) | (r << 16) | (g << 8) | b;
 }
 
+// Tarik
 // Per-triangle surface normal in MODEL space. Computed once at load:
 // the cross product of two edges is perpendicular to the triangle,
 // and we normalise it to unit length. The winding (chapter 8) makes
@@ -93,6 +106,8 @@ static void compute_face_normals(const Mesh* mesh, vec3* out) {
     }
 }
 
+
+// Nico
 // Textured + lit triangle: perspective-correct UV (chapter 9) plus a
 // single flat brightness multiplying every sampled texel.
 static void draw_triangle_lit(int x0, int y0, float z0, float iw0, vec2 uv0,
@@ -145,22 +160,27 @@ static void draw_triangle_lit(int x0, int y0, float z0, float iw0, vec2 uv0,
     }
 }
 
+
 int main(int argc, char** argv) {
     (void)argc; (void)argv;
 
+    // Nico
     Mesh mesh;
     if (!mesh_load(WARP_ASSET_DIR "/spot.obj", &mesh)) return 1;
     printf("loaded spot.obj: %d vertices, %d uvs, %d faces\n",
         mesh.vert_count, mesh.uv_count, mesh.face_count);
 
+    // Nico
     Texture tex;
     if (!texture_load(WARP_ASSET_DIR "/spot_texture.png", &tex)) return 1;
     printf("loaded spot_texture.png: %dx%d texels\n", tex.width, tex.height);
 
+    // Nico
     // One model-space normal per triangle, computed once.
     vec3* face_normals = (vec3*)malloc(mesh.face_count * sizeof(vec3));
     compute_face_normals(&mesh, face_normals);
 
+    // Tarik
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
         return 1;
@@ -172,7 +192,7 @@ int main(int argc, char** argv) {
 
     const float aspect = (float)WIDTH / (float)HEIGHT;
     const mat4 projection = mat4_perspective(radians(50.0f), aspect, 0.1f, 100.0f);
-    const vec3 eye = vec3_make(0, 0, 3);
+    const vec3 eye = vec3_make(0, 0, 4);
     const vec3 target = vec3_make(0, 0, 0);
     const vec3 up = vec3_make(0, 1, 0);
     const mat4 view = mat4_look_at(eye, target, up);
@@ -195,6 +215,7 @@ int main(int argc, char** argv) {
     int    fps_count = 0;
     char   title[180];
 
+    // Nico & Tarik
     bool running = true;
     while (running) {
         SDL_Event e;
@@ -223,6 +244,7 @@ int main(int argc, char** argv) {
 
         clear(rgb(16, 16, 24));
         clear_zbuffer();
+
 
         for (int fidx = 0; fidx < mesh.face_count; fidx++) {
             int a = mesh.faces[fidx * 3 + 0];

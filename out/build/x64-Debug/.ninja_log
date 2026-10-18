@@ -1,5 +1,5 @@
 # ninja log v7
-45	1964	8140311591436269	build.ninja	5492f99e12bbb94f
+45	1964	8140348682360839	build.ninja	5492f99e12bbb94f
 99	1047	8140310214617582	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.c.obj	916acd02b20c56d3
 138	1062	8140310215002930	_deps/sdl3-build/CMakeFiles/SDL_uclibc.dir/src/libm/e_log10.c.obj	9cb9445bd04f56f
 196	1074	8140310215586842	_deps/sdl3-build/CMakeFiles/SDL_uclibc.dir/src/libm/s_atan.c.obj	bdb2594f8e9f605d
@@ -259,3 +259,12 @@
 75	352	8140312957225755	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	bf8dc49fb1344974
 84	424	8140312957308865	_deps/sdl3-build/SDL3-static.lib	19dd38f8f053d40
 425	957	8140312960718488	Moteur3DCPU.exe	9cf3f44b2dae8801
+30	815	8140348682360839	build.ninja	5492f99e12bbb94f
+30	815	8140348682360839	D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/cmake_install.cmake	5492f99e12bbb94f
+30	815	8140348682360839	D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/cmake_install.cmake	5492f99e12bbb94f
+242	895	8140348685851696	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/SDL.c.obj	71ba540d242facb2
+250	910	8140348685936904	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	bf8dc49fb1344974
+896	1523	8140348692391284	_deps/sdl3-build/SDL3-static.lib	19dd38f8f053d40
+1524	2082	8140348698669804	Moteur3DCPU.exe	9cf3f44b2dae8801
+76	315	8140348777326548	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	bf8dc49fb1344974
+315	863	8140348779708109	Moteur3DCPU.exe	9cf3f44b2dae8801
