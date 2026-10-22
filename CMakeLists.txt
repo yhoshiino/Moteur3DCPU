@@ -16,7 +16,7 @@ set(SDL_TEST_LIBRARY OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(SDL3)
 
 
-add_executable(Moteur3DCPU src/main.cpp "header/vec.h" "header/mat.h" "header/obj.h" "header/texture.h")
+add_executable(Moteur3DCPU src/main.cpp "header/vec.h" "header/mat.h" "header/obj.h" "header/texture.h" "header/clip.h")
 
 target_include_directories(Moteur3DCPU PRIVATE header)
 target_include_directories(Moteur3DCPU PRIVATE assets)

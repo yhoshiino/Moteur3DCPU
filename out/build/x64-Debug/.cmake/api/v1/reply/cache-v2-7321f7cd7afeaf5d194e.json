@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lib.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.36.32532/bin/Hostx64/x64/lib.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -39,7 +39,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "d:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "c:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -51,7 +51,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "4"
+			"value" : "3"
 		},
 		{
 			"name" : "CMAKE_CACHE_MINOR_VERSION",
@@ -63,7 +63,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "3"
+			"value" : "31"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -75,7 +75,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "1"
+			"value" : "6"
 		},
 		{
 			"name" : "CMAKE_COMMAND",
@@ -87,7 +87,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -99,7 +99,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cpack.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -111,7 +111,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.36.32532/bin/Hostx64/x64/cl.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -239,7 +239,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.36.32532/bin/Hostx64/x64/cl.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -483,7 +483,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -543,7 +543,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -747,7 +747,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_INSTALL_RUNSTATEDIR",
@@ -827,19 +827,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.exe"
-		},
-		{
-			"name" : "CMAKE_LIST_FILE_NAME",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Name of CMakeLists files to read"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "CMakeLists.txt"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.36.32532/bin/Hostx64/x64/link.exe"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -851,7 +839,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/PROGRA~1/MIB055~1/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -947,7 +935,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/mt.exe"
+			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.28000.0/x64/mt.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -972,18 +960,6 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "1"
-		},
-		{
-			"name" : "CMAKE_PROJECT_COMPAT_VERSION",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : ""
 		},
 		{
 			"name" : "CMAKE_PROJECT_DESCRIPTION",
@@ -1020,18 +996,6 @@
 			],
 			"type" : "STATIC",
 			"value" : "Moteur3DCPU"
-		},
-		{
-			"name" : "CMAKE_PROJECT_SPDX_LICENSE",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : ""
 		},
 		{
 			"name" : "CMAKE_PROJECT_VERSION",
@@ -1119,7 +1083,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/rc.exe"
+			"value" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.28000.0/x64/rc.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1223,7 +1187,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.3"
+			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.31"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1347,7 +1311,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the archiver during the creation of static libraries during all build types."
+					"value" : "Flags used by the linker during the creation of static libraries during all build types."
 				}
 			],
 			"type" : "STRING",
@@ -1363,7 +1327,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the archiver during the creation of static libraries during DEBUG builds."
+					"value" : "Flags used by the linker during the creation of static libraries during DEBUG builds."
 				}
 			],
 			"type" : "STRING",
@@ -1379,7 +1343,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the archiver during the creation of static libraries during MINSIZEREL builds."
+					"value" : "Flags used by the linker during the creation of static libraries during MINSIZEREL builds."
 				}
 			],
 			"type" : "STRING",
@@ -1395,7 +1359,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the archiver during the creation of static libraries during RELEASE builds."
+					"value" : "Flags used by the linker during the creation of static libraries during RELEASE builds."
 				}
 			],
 			"type" : "STRING",
@@ -1411,7 +1375,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Flags used by the archiver during the creation of static libraries during RELWITHDEBINFO builds."
+					"value" : "Flags used by the linker during the creation of static libraries during RELWITHDEBINFO builds."
 				}
 			],
 			"type" : "STRING",
@@ -1575,7 +1539,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps"
 		},
 		{
 			"name" : "FETCHCONTENT_FULLY_DISCONNECTED",
@@ -1651,7 +1615,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/Git/Git/cmd/git.exe"
+			"value" : "GIT_EXECUTABLE-NOTFOUND"
 		},
 		{
 			"name" : "HAVE_ALLOCA_H",
@@ -3571,7 +3535,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "Moteur3DCPU_IS_TOP_LEVEL",
@@ -3595,7 +3559,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU"
 		},
 		{
 			"name" : "PKG_CONFIG_ARGN",
@@ -3639,7 +3603,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
 		},
 		{
 			"name" : "SDL3_IS_TOP_LEVEL",
@@ -3663,7 +3627,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
 		},
 		{
 			"name" : "SDL_ALSA",
@@ -4787,7 +4751,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
 		}
 	],
 	"kind" : "cache",

@@ -1,23 +1,26 @@
 // ============================================================
-//  Chapter 10 — Diffuse lighting: letting the sun shine on Spot
+//  Chapter 12 — Near-plane clipping + bilinear texture filtering
 // ------------------------------------------------------------
-//  Chapter 9 textured Spot, but every face was equally bright —
-//  no sense of a light or which way the surface faced. Now we
-//  add a directional light and shade each triangle by how
-//  squarely it faces that light (Lambert's cosine law):
+//  Two polish passes that close loose ends from earlier chapters.
 //
-//      brightness = ambient + (1 - ambient) * max(0, dot(N, L))
-//      final      = texel * brightness
+//  1) NEAR-PLANE CLIPPING. Until now we skipped any triangle with a
+//     vertex behind the camera. A triangle straddling the near plane
+//     was dropped, leaving a hole. Now we CLIP it against the near
+//     plane in clip space (clip.h), before the perspective divide:
+//     the part in front survives, recut into 1 or 2 triangles.
 //
-//  N is the triangle's surface normal in WORLD space (the model-
-//  space normal rotated by the model matrix each frame). L is a
-//  fixed unit vector pointing TOWARD the light. The dot product is
-//  the cosine of the angle between them — Lambert's law (1760) as
-//  one vector operation.
+//     The loop is restructured: the per-vertex pass now produces
+//     only CLIP-space positions (no divide); the perspective divide,
+//     viewport, backface cull and rasterization happen per OUTPUT
+//     triangle of the clipper.
 //
-//  Shading is FLAT: one brightness per triangle. Smooth (Phong)
-//  shading is chapter 11. Texture (ch 9), Z-buffer (ch 7) and
-//  backface cull (ch 8) all stay on.
+//  2) BILINEAR FILTERING. Chapter 9's nearest-neighbour texture
+//     sampling looks blocky up close. texture_sample_bilinear blends
+//     the four nearest texels for a smooth result. Toggle BILINEAR
+//     to compare.
+//
+//  Everything else (Phong + specular, Z-buffer, cull, perspective-
+//  correct attributes) is unchanged.
 // ============================================================
 
 #include <SDL3/SDL.h>
@@ -31,8 +34,8 @@
 #include "mat.h"
 #include "obj.h"
 #include "texture.h"
+#include "clip.h"
 
-// Nico
 #define WIDTH  800
 #define HEIGHT 600
 
@@ -40,87 +43,64 @@
 #define WARP_ASSET_DIR "assets"
 #endif
 
-// Ambient floor: how lit a surface is even when it faces away from
-// the light. 0.0 = pitch black on the dark side; 1.0 = no shading
-// at all. 0.18 keeps the texture readable in shadow.
+#define AMBIENT        0.18f
+#define SPEC_STRENGTH  0.55f
+#define BILINEAR       true    // false = blocky nearest-neighbour (chapter 9)
 
-// Nico
-#define AMBIENT 0.18f
-
-// Tarik
 static uint32_t framebuffer[WIDTH * HEIGHT];
 static float    zbuffer[WIDTH * HEIGHT];
 
-// Nico
 static inline uint32_t rgb(uint8_t r, uint8_t g, uint8_t b) {
-    return ((uint32_t)0xFFu << 24) 
-        | ((uint32_t)r << 16)
-        | ((uint32_t)g << 8) |
-          (uint32_t)b;
+    return ((uint32_t)0xFFu << 24) | ((uint32_t)r << 16)
+        | ((uint32_t)g << 8) | (uint32_t)b;
 }
 
-// Tarik
 static void clear(uint32_t color) {
     for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
 }
-// Tarik
+
 static void clear_zbuffer(void) {
     for (int i = 0; i < WIDTH * HEIGHT; i++) zbuffer[i] = 1e30f;
 }
 
-// Nico
 static inline int edge(int ax, int ay, int bx, int by, int px, int py) {
     return (bx - ax) * (py - ay) - (by - ay) * (px - ax);
 }
 
-// Nico
 static inline int clampi(int v, int lo, int hi) {
     return v < lo ? lo : (v > hi ? hi : v);
 }
 
-
-// Nico
-// Scale an ARGB texel by a brightness in [0, 1], per channel.
-static inline uint32_t color_scale(uint32_t c, float k) {
-    if (k < 0.0f) k = 0.0f;
-    if (k > 1.0f) k = 1.0f;
-    uint32_t r = (uint32_t)((float)((c >> 16) & 0xFF) * k);
-    uint32_t g = (uint32_t)((float)((c >> 8) & 0xFF) * k);
-    uint32_t b = (uint32_t)((float)(c & 0xFF) * k);
-    return ((uint32_t)0xFFu << 24) | (r << 16) | (g << 8) | b;
+static inline float pow32(float x) {
+    float x2 = x * x, x4 = x2 * x2, x8 = x4 * x4, x16 = x8 * x8;
+    return x16 * x16;
 }
 
-// Tarik
-// Per-triangle surface normal in MODEL space. Computed once at load:
-// the cross product of two edges is perpendicular to the triangle,
-// and we normalise it to unit length. The winding (chapter 8) makes
-// this point OUT of the front face.
-static void compute_face_normals(const Mesh* mesh, vec3* out) {
-    for (int f = 0; f < mesh->face_count; f++) {
-        vec3 v0 = mesh->verts[mesh->faces[f * 3 + 0]];
-        vec3 v1 = mesh->verts[mesh->faces[f * 3 + 1]];
-        vec3 v2 = mesh->verts[mesh->faces[f * 3 + 2]];
-        vec3 e1 = vec3_sub(v1, v0);
-        vec3 e2 = vec3_sub(v2, v0);
-        out[f] = vec3_normalize(vec3_cross(e1, e2));
-    }
+static inline uint32_t color_phong(uint32_t texel, float diffuse_k, float spec_k) {
+    float r = (float)((texel >> 16) & 0xFF) * diffuse_k + 255.0f * spec_k;
+    float g = (float)((texel >> 8) & 0xFF) * diffuse_k + 255.0f * spec_k;
+    float b = (float)(texel & 0xFF) * diffuse_k + 255.0f * spec_k;
+    if (r > 255.0f) r = 255.0f;
+    if (g > 255.0f) g = 255.0f;
+    if (b > 255.0f) b = 255.0f;
+    return ((uint32_t)0xFFu << 24)
+        | ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
 }
 
-
-// Nico
-// Textured + lit triangle: perspective-correct UV (chapter 9) plus a
-// single flat brightness multiplying every sampled texel.
-static void draw_triangle_lit(int x0, int y0, float z0, float iw0, vec2 uv0,
-    int x1, int y1, float z1, float iw1, vec2 uv1,
-    int x2, int y2, float z2, float iw2, vec2 uv2,
-    const Texture* tex, float brightness) {
+// Phong-shaded textured triangle (unchanged from chapter 11, except
+// the sampler is now selectable). Vertices come in screen space with
+// per-vertex depth, 1/w, UV and world normal.
+static void draw_triangle_phong(
+    int x0, int y0, float z0, float iw0, vec2 uv0, vec3 n0,
+    int x1, int y1, float z1, float iw1, vec2 uv1, vec3 n1,
+    int x2, int y2, float z2, float iw2, vec2 uv2, vec3 n2,
+    const Texture* tex, vec3 L, vec3 H) {
     int area = edge(x0, y0, x1, y1, x2, y2);
     if (area == 0) return;
-
     if (area < 0) {
-        int tx = x1, ty = y1; float tz = z1, tiw = iw1; vec2 tuv = uv1;
-        x1 = x2; y1 = y2; z1 = z2; iw1 = iw2; uv1 = uv2;
-        x2 = tx; y2 = ty; z2 = tz; iw2 = tiw; uv2 = tuv;
+        int   tx = x1, ty = y1; float tz = z1, tiw = iw1; vec2 tuv = uv1; vec3 tn = n1;
+        x1 = x2; y1 = y2; z1 = z2; iw1 = iw2; uv1 = uv2; n1 = n2;
+        x2 = tx; y2 = ty; z2 = tz; iw2 = tiw; uv2 = tuv; n2 = tn;
         area = -area;
     }
 
@@ -133,6 +113,9 @@ static void draw_triangle_lit(int x0, int y0, float z0, float iw0, vec2 uv0,
     float u0w = uv0.x * iw0, v0w = uv0.y * iw0;
     float u1w = uv1.x * iw1, v1w = uv1.y * iw1;
     float u2w = uv2.x * iw2, v2w = uv2.y * iw2;
+    vec3 n0w = vec3_scale(n0, iw0);
+    vec3 n1w = vec3_scale(n1, iw1);
+    vec3 n2w = vec3_scale(n2, iw2);
 
     for (int y = miny; y <= maxy; y++) {
         for (int x = minx; x <= maxx; x++) {
@@ -141,72 +124,122 @@ static void draw_triangle_lit(int x0, int y0, float z0, float iw0, vec2 uv0,
             int e2 = edge(x0, y0, x1, y1, x, y);
             if ((e0 | e1 | e2) < 0) continue;
 
-            float l0 = e0 * inv_area;
-            float l1 = e1 * inv_area;
-            float l2 = e2 * inv_area;
+            float l0 = e0 * inv_area, l1 = e1 * inv_area, l2 = e2 * inv_area;
 
             float z = l0 * z0 + l1 * z1 + l2 * z2;
             int idx = y * WIDTH + x;
             if (z >= zbuffer[idx]) continue;
 
-            float uw = l0 * u0w + l1 * u1w + l2 * u2w;
-            float vw = l0 * v0w + l1 * v1w + l2 * v2w;
             float iw = l0 * iw0 + l1 * iw1 + l2 * iw2;
-            uint32_t texel = texture_sample(tex, uw / iw, vw / iw);
+            float inv_iw = 1.0f / iw;
+            float u = (l0 * u0w + l1 * u1w + l2 * u2w) * inv_iw;
+            float v = (l0 * v0w + l1 * v1w + l2 * v2w) * inv_iw;
 
+            vec3 N = vec3_make((l0 * n0w.x + l1 * n1w.x + l2 * n2w.x) * inv_iw,
+                (l0 * n0w.y + l1 * n1w.y + l2 * n2w.y) * inv_iw,
+                (l0 * n0w.z + l1 * n1w.z + l2 * n2w.z) * inv_iw);
+            N = vec3_normalize(N);
+
+            float ndotl = vec3_dot(N, L);
+            if (ndotl < 0.0f) ndotl = 0.0f;
+            float diffuse_k = AMBIENT + (1.0f - AMBIENT) * ndotl;
+
+            float ndoth = vec3_dot(N, H);
+            if (ndoth < 0.0f) ndoth = 0.0f;
+            float spec_k = pow32(ndoth) * SPEC_STRENGTH;
+
+#if BILINEAR
+            uint32_t texel = texture_sample_bilinear(tex, u, v);
+#else
+            uint32_t texel = texture_sample(tex, u, v);
+#endif
             zbuffer[idx] = z;
-            framebuffer[idx] = color_scale(texel, brightness);
+            framebuffer[idx] = color_phong(texel, diffuse_k, spec_k);
         }
     }
 }
 
+// Take one clipper-output triangle (3 clip-space vertices, all in
+// front of the near plane) through the perspective divide, viewport,
+// backface cull, and the rasterizer.
+static void project_and_draw(const clip_vertex* tri, const Texture* tex,
+    vec3 L, vec3 H) {
+    int   screen_x[3], screen_y[3];
+    float ndc_z[3], inv_w[3];
+    for (int k = 0; k < 3; k++) {
+        float inv = 1.0f / tri[k].clip.w;
+        screen_x[k] = (int)((tri[k].clip.x * inv + 1.0f) * 0.5f * WIDTH);
+        screen_y[k] = (int)((1.0f - (tri[k].clip.y * inv + 1.0f) * 0.5f) * HEIGHT);
+        ndc_z[k] = tri[k].clip.z * inv;
+        inv_w[k] = inv;
+    }
+
+    if (edge(screen_x[0], screen_y[0], screen_x[1], screen_y[1], screen_x[2], screen_y[2]) >= 0) return;  // cull
+
+    draw_triangle_phong(screen_x[0], screen_y[0], ndc_z[0], inv_w[0], tri[0].uv, tri[0].normal,
+        screen_x[1], screen_y[1], ndc_z[1], inv_w[1], tri[1].uv, tri[1].normal,
+        screen_x[2], screen_y[2], ndc_z[2], inv_w[2], tri[2].uv, tri[2].normal,
+        tex, L, H);
+}
+
+static void compute_face_normals(const Mesh* mesh, vec3* out) {
+    for (int f = 0; f < mesh->face_count; f++) {
+        vec3 v0 = mesh->verts[mesh->faces[f * 3 + 0]];
+        vec3 v1 = mesh->verts[mesh->faces[f * 3 + 1]];
+        vec3 v2 = mesh->verts[mesh->faces[f * 3 + 2]];
+        out[f] = vec3_normalize(vec3_cross(vec3_sub(v1, v0), vec3_sub(v2, v0)));
+    }
+}
+
+static void compute_vertex_normals(const Mesh* mesh, const vec3* face_normals, vec3* out) {
+    for (int i = 0; i < mesh->vert_count; i++) out[i] = vec3_make(0, 0, 0);
+    for (int f = 0; f < mesh->face_count; f++)
+        for (int k = 0; k < 3; k++)
+            out[mesh->faces[f * 3 + k]] = vec3_add(out[mesh->faces[f * 3 + k]], face_normals[f]);
+    for (int i = 0; i < mesh->vert_count; i++) out[i] = vec3_normalize(out[i]);
+}
 
 int main(int argc, char** argv) {
     (void)argc; (void)argv;
 
-    // Nico
     Mesh mesh;
     if (!mesh_load(WARP_ASSET_DIR "/spot.obj", &mesh)) return 1;
     printf("loaded spot.obj: %d vertices, %d uvs, %d faces\n",
         mesh.vert_count, mesh.uv_count, mesh.face_count);
 
-    // Nico
     Texture tex;
     if (!texture_load(WARP_ASSET_DIR "/spot_texture.png", &tex)) return 1;
     printf("loaded spot_texture.png: %dx%d texels\n", tex.width, tex.height);
 
-    // Nico
-    // One model-space normal per triangle, computed once.
     vec3* face_normals = (vec3*)malloc(mesh.face_count * sizeof(vec3));
+    vec3* vertex_normals = (vec3*)malloc(mesh.vert_count * sizeof(vec3));
     compute_face_normals(&mesh, face_normals);
+    compute_vertex_normals(&mesh, face_normals, vertex_normals);
 
-    // Tarik
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
         return 1;
     }
-    SDL_Window* window = SDL_CreateWindow("Chapter 10 — Diffuse lighting", WIDTH, HEIGHT, 0);
+    SDL_Window* window = SDL_CreateWindow("Chapter 12 — Clipping + filtering", WIDTH, HEIGHT, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
     SDL_Texture* screen_tex = SDL_CreateTexture(renderer,
         SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
 
     const float aspect = (float)WIDTH / (float)HEIGHT;
     const mat4 projection = mat4_perspective(radians(50.0f), aspect, 0.1f, 100.0f);
-    const vec3 eye = vec3_make(0, 0, 4);
+    const vec3 eye = vec3_make(0, 0, 3);
     const vec3 target = vec3_make(0, 0, 0);
     const vec3 up = vec3_make(0, 1, 0);
     const mat4 view = mat4_look_at(eye, target, up);
 
-    // Directional light, fixed in WORLD space. L points FROM the
-    // surface TOWARD the light — here, up and a bit to the front-right,
-    // like a sun over your shoulder.
     const vec3 light = vec3_normalize(vec3_make(0.4f, 0.8f, 0.45f));
+    const vec3 half_vec = vec3_normalize(vec3_add(light, vec3_make(0, 0, 1)));
 
-    int* screen_x = (int*)malloc(mesh.vert_count * sizeof(int));
-    int* screen_y = (int*)malloc(mesh.vert_count * sizeof(int));
-    float* ndc_z = (float*)malloc(mesh.vert_count * sizeof(float));
-    float* inv_w = (float*)malloc(mesh.vert_count * sizeof(float));
-    bool* visible = (bool*)malloc(mesh.vert_count * sizeof(bool));
+    // Per-vertex CLIP-space position and world normal. No screen
+    // coords or 1/w here — those are computed per OUTPUT triangle,
+    // after clipping.
+    vec4* clip_v = (vec4*)malloc(mesh.vert_count * sizeof(vec4));
+    vec3* normal_world = (vec3*)malloc(mesh.vert_count * sizeof(vec3));
 
     const Uint64 freq = SDL_GetPerformanceFrequency();
     const Uint64 start = SDL_GetPerformanceCounter();
@@ -215,7 +248,6 @@ int main(int argc, char** argv) {
     int    fps_count = 0;
     char   title[180];
 
-    // Nico & Tarik
     bool running = true;
     while (running) {
         SDL_Event e;
@@ -231,49 +263,35 @@ int main(int argc, char** argv) {
         mat4 model = mat4_rotation_y(t * 0.7f);
         mat4 mvp = mat4_mul(projection, mat4_mul(view, model));
 
+        // Project to CLIP space only — no divide. The clipper handles
+        // "behind the camera" rigorously, so there's no vis[] flag.
         for (int i = 0; i < mesh.vert_count; i++) {
-            vec4 clip = mat4_mul_vec4(mvp, vec4_from_point(mesh.verts[i]));
-            if (clip.w <= 0.0001f) { visible[i] = false; continue; }
-            float inv = 1.0f / clip.w;
-            screen_x[i] = (int)((clip.x * inv + 1.0f) * 0.5f * WIDTH);
-            screen_y[i] = (int)((1.0f - (clip.y * inv + 1.0f) * 0.5f) * HEIGHT);
-            ndc_z[i] = clip.z * inv;
-            inv_w[i] = inv;
-            visible[i] = true;
+            clip_v[i] = mat4_mul_vec4(mvp, vec4_from_point(mesh.verts[i]));
+            normal_world[i] = mat4_mul_dir(model, vertex_normals[i]);
         }
 
         clear(rgb(16, 16, 24));
         clear_zbuffer();
 
-
         for (int fidx = 0; fidx < mesh.face_count; fidx++) {
             int a = mesh.faces[fidx * 3 + 0];
             int b = mesh.faces[fidx * 3 + 1];
             int c = mesh.faces[fidx * 3 + 2];
-            if (!visible[a] || !visible[b] || !visible[c]) continue;
-
-            if (edge(screen_x[a], screen_y[a], screen_x[b], screen_y[b], screen_x[c], screen_y[c]) >= 0) continue;  // cull
-
-            // Lambert shading for this face. Rotate the normal into
-            // world space, then brightness = ambient + diffuse, where
-            // diffuse = max(0, N·L). The model matrix here is a pure
-            // rotation, so the normal stays unit length.
-            vec3 n = mat4_mul_dir(model, face_normals[fidx]);
-            float ndotl = vec3_dot(n, light);
-            if (ndotl < 0.0f) ndotl = 0.0f;
-            float brightness = AMBIENT + (1.0f - AMBIENT) * ndotl;
-
             int ua = mesh.face_uvs[fidx * 3 + 0];
             int ub = mesh.face_uvs[fidx * 3 + 1];
             int uc = mesh.face_uvs[fidx * 3 + 2];
-            vec2 uva = (ua >= 0) ? mesh.uvs[ua] : vec2_make(0, 0);
-            vec2 uvb = (ub >= 0) ? mesh.uvs[ub] : vec2_make(0, 0);
-            vec2 uvc = (uc >= 0) ? mesh.uvs[uc] : vec2_make(0, 0);
 
-            draw_triangle_lit(screen_x[a], screen_y[a], ndc_z[a], inv_w[a], uva,
-                screen_x[b], screen_y[b], ndc_z[b], inv_w[b], uvb,
-                screen_x[c], screen_y[c], ndc_z[c], inv_w[c], uvc,
-                &tex, brightness);
+            clip_vertex v0, v1, v2;
+            v0.clip = clip_v[a]; v0.normal = normal_world[a]; v0.uv = (ua >= 0) ? mesh.uvs[ua] : vec2_make(0, 0);
+            v1.clip = clip_v[b]; v1.normal = normal_world[b]; v1.uv = (ub >= 0) ? mesh.uvs[ub] : vec2_make(0, 0);
+            v2.clip = clip_v[c]; v2.normal = normal_world[c]; v2.uv = (uc >= 0) ? mesh.uvs[uc] : vec2_make(0, 0);
+
+            // Near-plane clip → 0, 1, or 2 triangles, each fully in front.
+            clip_vertex out[6];
+            int n_out;
+            clip_triangle_near(v0, v1, v2, out, &n_out);
+            for (int ot = 0; ot < n_out; ot++)
+                project_and_draw(&out[ot * 3], &tex, light, half_vec);
         }
 
         SDL_UpdateTexture(screen_tex, NULL, framebuffer, WIDTH * sizeof(uint32_t));
@@ -290,16 +308,16 @@ int main(int argc, char** argv) {
             double fps = (double)fps_count / fps_accum;
             double ms = 1000.0 * fps_accum / (double)fps_count;
             snprintf(title, sizeof title,
-                "Chapter 10 — Diffuse lighting  |  flat Lambert  |  %.1f FPS  (%.2f ms)",
-                fps, ms);
+                "Chapter 12 — Clipping + %s  |  %.1f FPS  (%.2f ms)",
+                BILINEAR ? "bilinear" : "nearest", fps, ms);
             SDL_SetWindowTitle(window, title);
             fps_accum = 0.0;
             fps_count = 0;
         }
     }
 
-    free(screen_x); free(screen_y); free(ndc_z); free(inv_w); free(visible);
-    free(face_normals);
+    free(clip_v); free(normal_world);
+    free(face_normals); free(vertex_normals);
     mesh_free(&mesh);
     texture_free(&tex);
     SDL_DestroyTexture(screen_tex);
