@@ -102,6 +102,18 @@
 			}
 		]
 	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"compileDependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "SDL3-static::@405c074760d2f6728126"
+		}
+	],
 	"compileGroups" : 
 	[
 		{
@@ -115,26 +127,26 @@
 			[
 				{
 					"backtrace" : 10,
-					"define" : "WARP_ASSET_DIR=\"C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/assets\""
+					"define" : "WARP_ASSET_DIR=\"C:/Users/tarik/Documents/GitHub/Moteur3DCPU/assets\""
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 11,
-					"path" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/header"
+					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/header"
 				},
 				{
 					"backtrace" : 12,
-					"path" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/assets"
+					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/assets"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				}
 			],
 			"language" : "CXX",
@@ -169,7 +181,11 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
+				"fragment" : "/machine:x64 /debug /INCREMENTAL",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/subsystem:console",
 				"role" : "flags"
 			},
 			{
@@ -249,6 +265,13 @@
 		],
 		"language" : "CXX"
 	},
+	"linkLibraries" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "SDL3-static::@405c074760d2f6728126"
+		}
+	],
 	"name" : "Moteur3DCPU",
 	"nameOnDisk" : "Moteur3DCPU.exe",
 	"paths" : 

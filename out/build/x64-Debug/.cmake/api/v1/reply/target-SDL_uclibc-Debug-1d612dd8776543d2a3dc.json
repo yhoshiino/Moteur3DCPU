@@ -87,6 +87,11 @@
 			}
 		]
 	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
 	"compileGroups" : 
 	[
 		{
@@ -115,15 +120,15 @@
 			[
 				{
 					"backtrace" : 6,
-					"path" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
+					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
 				},
 				{
 					"backtrace" : 7,
-					"path" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
+					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
 				},
 				{
 					"backtrace" : 8,
-					"path" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				}
 			],
 			"language" : "C",

@@ -2,6 +2,30 @@
 	"configurations" : 
 	[
 		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "SDL3-collector::@405c074760d2f6728126",
+					"jsonFile" : "target-SDL3-collector-Debug-fabd588ebb88d668758c.json",
+					"name" : "SDL3-collector",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "SDL3_Headers::@405c074760d2f6728126",
+					"jsonFile" : "target-SDL3_Headers-Debug-625750349bee63afdfaa.json",
+					"name" : "SDL3_Headers",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "SDL3_test-collector::@405c074760d2f6728126",
+					"jsonFile" : "target-SDL3_test-collector-Debug-7a6899e4c03bf912faa1.json",
+					"name" : "SDL3_test-collector",
+					"projectIndex" : 1
+				}
+			],
 			"directories" : 
 			[
 				{
@@ -10,7 +34,7 @@
 					[
 						1
 					],
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"jsonFile" : "directory-.-Debug-f040eec181a89de70dbe.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.20"
@@ -23,8 +47,14 @@
 					]
 				},
 				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
 					"build" : "_deps/sdl3-build",
-					"jsonFile" : "directory-_deps.sdl3-build-Debug-36f84d8db8fa06047cec.json",
+					"jsonFile" : "directory-_deps.sdl3-build-Debug-6adbd705d43fd20a2d8e.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -58,6 +88,12 @@
 					]
 				},
 				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
 					"directoryIndexes" : 
 					[
 						1
@@ -76,21 +112,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Moteur3DCPU::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Moteur3DCPU-Debug-26b7b6e42cf77747c59e.json",
+					"jsonFile" : "target-Moteur3DCPU-Debug-6bcb033a05922597c15c.json",
 					"name" : "Moteur3DCPU",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "SDL3-static::@405c074760d2f6728126",
-					"jsonFile" : "target-SDL3-static-Debug-5cba99b36ce2c7577c55.json",
+					"jsonFile" : "target-SDL3-static-Debug-3504a4c33ddbeeae43c5.json",
 					"name" : "SDL3-static",
 					"projectIndex" : 1
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "SDL_uclibc::@405c074760d2f6728126",
-					"jsonFile" : "target-SDL_uclibc-Debug-91dd7def6bc1ce850ce9.json",
+					"jsonFile" : "target-SDL_uclibc-Debug-1d612dd8776543d2a3dc.json",
 					"name" : "SDL_uclibc",
 					"projectIndex" : 1
 				}
@@ -100,12 +136,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug",
-		"source" : "C:/Users/tbouaifel/Documents/GitHub/Moteur3DCPU"
+		"build" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug",
+		"source" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 8
+		"minor" : 10
 	}
 }
