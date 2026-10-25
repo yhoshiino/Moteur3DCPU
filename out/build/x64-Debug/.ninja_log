@@ -99,7 +99,7 @@
 1653	1791	8144391578180507	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/render/vitagxm/SDL_render_vita_gxm.c.obj	1bd286e4d819e8e6
 1660	1797	8144391578227109	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/render/vitagxm/SDL_render_vita_gxm_memory.c.obj	478eb1582b914180
 1285	1804	8144391574528694	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/joystick/SDL_joystick.c.obj	cb98c5bc121a0d1b
-810	1812	8144391569747877	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	755ebeec6af26faf
+54	655	8144464706322593	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	755ebeec6af26faf
 1252	1821	8144391574165202	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/hidapi/SDL_hidapi.c.obj	cf7658f21b039790
 1750	1854	8144391579147792	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/stdlib/SDL_crc16.c.obj	9798b9b8fae6b432
 1759	1862	8144391579248198	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/stdlib/SDL_crc32.c.obj	10f4be5916d6fbab
@@ -257,8 +257,12 @@
 3219	3980	8144391593879216	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/joystick/windows/SDL_windows_gaming_input.c.obj	9010651ba97d8523
 3211	4006	8144391593788476	_deps/sdl3-build/CMakeFiles/SDL3-static.dir/src/joystick/windows/SDL_rawinputjoystick.c.obj	488128e0132e77ab
 4007	4127	8144391601728988	_deps/sdl3-build/SDL3-static.lib	eb9937e9af544f36
-4127	4360	8144391602927110	Moteur3DCPU.exe	be72506a663fea01
-53	606	8144445567110553	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	755ebeec6af26faf
-607	748	8144445572652977	Moteur3DCPU.exe	be72506a663fea01
-54	655	8144464706322593	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	755ebeec6af26faf
 656	819	8144464712425356	Moteur3DCPU.exe	be72506a663fea01
+20	602	8144602330688734	build.ninja	dd31ff863b1af778
+20	602	8144602330213773	C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/cmake_install.cmake	dd31ff863b1af778
+20	602	8144602330609890	C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/cmake_install.cmake	dd31ff863b1af778
+41	1053	8144602330688734	build.ninja	dd31ff863b1af778
+41	1053	8144602330688734	C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/cmake_install.cmake	dd31ff863b1af778
+41	1053	8144602330688734	C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/cmake_install.cmake	dd31ff863b1af778
+49	612	8144602331965187	CMakeFiles/Moteur3DCPU.dir/src/main.cpp.obj	755ebeec6af26faf
+613	757	8144602337690062	Moteur3DCPU.exe	be72506a663fea01
