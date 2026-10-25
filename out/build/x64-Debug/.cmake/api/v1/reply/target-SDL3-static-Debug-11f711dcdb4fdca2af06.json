@@ -717,7 +717,7 @@
 					"fragment" : "/W3"
 				},
 				{
-					"fragment" : "/YcC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h /FpC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/.//cmake_pch.c.pch /FIC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h"
+					"fragment" : "/YcD:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h /FpD:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/.//cmake_pch.c.pch /FID:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h"
 				}
 			],
 			"defines" : 
@@ -759,24 +759,24 @@
 			[
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				},
 				{
 					"backtrace" : 23,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
 				},
 				{
 					"backtrace" : 25,
 					"isSystem" : true,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
 				}
 			],
 			"language" : "C",
@@ -792,7 +792,7 @@
 			[
 				{
 					"backtrace" : 26,
-					"header" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
+					"header" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
 				}
 			],
 			"sourceIndexes" : 
@@ -815,7 +815,7 @@
 					"fragment" : "/W3"
 				},
 				{
-					"fragment" : "/YuC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h /FpC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/.//cmake_pch.c.pch /FIC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h"
+					"fragment" : "/YuD:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h /FpD:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/.//cmake_pch.c.pch /FID:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h"
 				}
 			],
 			"defines" : 
@@ -857,24 +857,24 @@
 			[
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				},
 				{
 					"backtrace" : 23,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
 				},
 				{
 					"backtrace" : 25,
 					"isSystem" : true,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
 				}
 			],
 			"language" : "C",
@@ -890,7 +890,7 @@
 			[
 				{
 					"backtrace" : 26,
-					"header" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
+					"header" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
 				}
 			],
 			"sourceIndexes" : 
@@ -1178,24 +1178,24 @@
 			[
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				},
 				{
 					"backtrace" : 23,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
 				},
 				{
 					"backtrace" : 25,
 					"isSystem" : true,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
 				}
 			],
 			"language" : "C",
@@ -1211,7 +1211,7 @@
 			[
 				{
 					"backtrace" : 26,
-					"header" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
+					"header" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
 				}
 			],
 			"sourceIndexes" : 
@@ -1237,7 +1237,7 @@
 					"fragment" : " /GL-"
 				},
 				{
-					"fragment" : "/YuC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h /FpC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/.//cmake_pch.c.pch /FIC:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h"
+					"fragment" : "/YuD:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h /FpD:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/.//cmake_pch.c.pch /FID:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/CMakeFiles/SDL3-static.dir/cmake_pch.h"
 				}
 			],
 			"defines" : 
@@ -1279,24 +1279,24 @@
 			[
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-config-debug/build_config"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 22,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				},
 				{
 					"backtrace" : 23,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src"
 				},
 				{
 					"backtrace" : 25,
 					"isSystem" : true,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/video/khronos"
 				}
 			],
 			"language" : "C",
@@ -1312,7 +1312,7 @@
 			[
 				{
 					"backtrace" : 26,
-					"header" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
+					"header" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/src/SDL_internal.h"
 				}
 			],
 			"sourceIndexes" : 

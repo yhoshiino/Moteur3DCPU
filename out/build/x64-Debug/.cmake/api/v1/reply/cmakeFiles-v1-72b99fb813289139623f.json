@@ -541,8 +541,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug",
-		"source" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU"
+		"build" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug",
+		"source" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
 	},
 	"version" : 
 	{

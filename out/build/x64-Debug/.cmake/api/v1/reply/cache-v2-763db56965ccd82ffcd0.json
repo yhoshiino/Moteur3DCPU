@@ -39,7 +39,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "d:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -483,7 +483,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -543,7 +543,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -747,7 +747,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/install/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_INSTALL_RUNSTATEDIR",
@@ -1575,7 +1575,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps"
 		},
 		{
 			"name" : "FETCHCONTENT_FULLY_DISCONNECTED",
@@ -1651,7 +1651,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "GIT_EXECUTABLE-NOTFOUND"
+			"value" : "D:/Git/Git/cmd/git.exe"
 		},
 		{
 			"name" : "HAVE_ALLOCA_H",
@@ -3571,7 +3571,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug"
 		},
 		{
 			"name" : "Moteur3DCPU_IS_TOP_LEVEL",
@@ -3595,7 +3595,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU"
 		},
 		{
 			"name" : "PKG_CONFIG_ARGN",
@@ -3639,7 +3639,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build"
 		},
 		{
 			"name" : "SDL3_IS_TOP_LEVEL",
@@ -3663,7 +3663,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src"
 		},
 		{
 			"name" : "SDL_ALSA",
@@ -4787,7 +4787,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/install/x64-Debug"
+			"value" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/install/x64-Debug"
 		}
 	],
 	"kind" : "cache",

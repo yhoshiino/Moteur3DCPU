@@ -20,6 +20,7 @@ add_executable(Moteur3DCPU src/main.cpp "header/vec.h" "header/mat.h" "header/ob
 
 target_include_directories(Moteur3DCPU PRIVATE header)
 target_include_directories(Moteur3DCPU PRIVATE assets)
+target_include_directories(Moteur3DCPU PRIVATE assets/fonts)
 
 target_link_libraries(Moteur3DCPU PRIVATE SDL3::SDL3)
 

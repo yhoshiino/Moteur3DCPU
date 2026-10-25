@@ -40,7 +40,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 24,
+				"line" : 25,
 				"parent" : 0
 			},
 			{
@@ -85,7 +85,7 @@
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 26,
+				"line" : 27,
 				"parent" : 0
 			},
 			{
@@ -98,6 +98,12 @@
 				"command" : 5,
 				"file" : 0,
 				"line" : 22,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 23,
 				"parent" : 0
 			}
 		]
@@ -127,26 +133,30 @@
 			[
 				{
 					"backtrace" : 10,
-					"define" : "WARP_ASSET_DIR=\"C:/Users/tarik/Documents/GitHub/Moteur3DCPU/assets\""
+					"define" : "WARP_ASSET_DIR=\"D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets\""
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 11,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/header"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/header"
 				},
 				{
 					"backtrace" : 12,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/assets"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets/fonts"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/tarik/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				}
 			],
 			"language" : "CXX",

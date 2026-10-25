@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include "font.h"
 
 #include "vec.h"
 #include "mat.h"
@@ -285,6 +286,10 @@ int main(int argc, char** argv) {
     compute_face_normals(&mesh, face_normals);
     compute_vertex_normals(&mesh, face_normals, vertex_normals);
 
+    Font font;
+    if (!font_load(WARP_ASSET_DIR "/fonts/Basic Light.ttf", 20.0f, &font)) return 1;
+    char hud[64] = "Hello Spot";
+
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
         return 1;
@@ -377,6 +382,7 @@ int main(int argc, char** argv) {
                 project_and_draw(&out[ot * 3], &materials[current], &scene);
         }
 
+        font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
         SDL_UpdateTexture(screen_tex, NULL, framebuffer, WIDTH * sizeof(uint32_t));
         SDL_RenderClear(renderer);
         SDL_RenderTexture(renderer, screen_tex, NULL, NULL);
@@ -390,6 +396,9 @@ int main(int argc, char** argv) {
         if (fps_accum >= 1.0) {
             double fps = (double)fps_count / fps_accum;
             double ms = 1000.0 * fps_accum / (double)fps_count;
+
+            snprintf(hud, sizeof hud, "%.1f FPS", fps);
+
             snprintf(title, sizeof title,
                 "Chapter 12 — Shaders  |  [%d] %s  |  %.1f FPS  (%.2f ms)",
                 current + 1, materials[current].name, fps, ms);
@@ -402,6 +411,7 @@ int main(int argc, char** argv) {
     free(clip_v); free(normal_world);
     free(face_normals); free(vertex_normals);
     mesh_free(&mesh);
+    font_free(&font);
     texture_free(&tex);
     SDL_DestroyTexture(screen_tex);
     SDL_DestroyRenderer(renderer);
