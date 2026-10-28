@@ -3,6 +3,11 @@
 #include <vector>
 #include "componentStorage.h"
 
+struct cTest
+{
+	static int ECS_Index;
+};
+
 class EntityManager {
 private:
 

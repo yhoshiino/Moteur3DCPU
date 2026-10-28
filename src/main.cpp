@@ -40,13 +40,6 @@ static float    zbuffer[WIDTH * HEIGHT];
 
 
 
-static inline uint32_t rgb(uint8_t r, uint8_t g, uint8_t b) {
-    return ((uint32_t)0xFFu << 24)
-        | ((uint32_t)r << 16)
-        | ((uint32_t)g << 8)
-        | (uint32_t)b;
-}
-
 static void clear(uint32_t color) {
     for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
 }
@@ -153,9 +146,6 @@ static void project_and_draw(const clip_vertex* tri, const Material* mat, const 
         mat, scene);
 }   // <<< une seule accolade fermante, à la fin
 
-static void clear(uint32_t color) {
-    for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
-}
 
 static void compute_face_normals(const Mesh* mesh, vec3* out) {
     for (int f = 0; f < mesh->face_count; f++) {
