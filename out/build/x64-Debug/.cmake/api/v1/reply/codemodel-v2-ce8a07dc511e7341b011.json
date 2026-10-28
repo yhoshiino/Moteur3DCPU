@@ -1,0 +1,111 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "_deps/sdl3-build",
+					"jsonFile" : "directory-_deps.sdl3-build-Debug-36f84d8db8fa06047cec.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "out/build/x64-Debug/_deps/sdl3-src",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Moteur3DCPU",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "SDL3",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Moteur3DCPU::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Moteur3DCPU-Debug-42851f7ddbe6242eb1ca.json",
+					"name" : "Moteur3DCPU",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "SDL3-static::@405c074760d2f6728126",
+					"jsonFile" : "target-SDL3-static-Debug-fc3e4c5d52d1615f6582.json",
+					"name" : "SDL3-static",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "SDL_uclibc::@405c074760d2f6728126",
+					"jsonFile" : "target-SDL_uclibc-Debug-3c365f807482ff1c89eb.json",
+					"name" : "SDL_uclibc",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug",
+		"source" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

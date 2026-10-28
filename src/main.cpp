@@ -28,6 +28,7 @@
 
 #define WIDTH  800
 #define HEIGHT 600
+#define PI 3.14159265358979323846f
 
 #ifndef WARP_ASSET_DIR
 #define WARP_ASSET_DIR "assets"
@@ -243,6 +244,9 @@ static void project_and_draw(const clip_vertex* tri, const Material* mat, const 
         ndc_z[k] = tri[k].clip.z * inv;
         inv_w[k] = inv;
     }
+static void clear(uint32_t color) {
+    for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
+}
 
     if (edge(screen_x[0], screen_y[0], screen_x[1], screen_y[1], screen_x[2], screen_y[2]) >= 0) return;  // cull
 
@@ -328,6 +332,10 @@ int main(int argc, char** argv) {
     vec4* clip_v = (vec4*)malloc(mesh.vert_count * sizeof(vec4));
     vec3* normal_world = (vec3*)malloc(mesh.vert_count * sizeof(vec3));
 
+    // ---- FPS measurement state ----
+    // SDL_GetPerformanceCounter ticks a high-resolution timer.
+    // SDL_GetPerformanceFrequency tells us ticks per second.
+    // So (now - last) / freq is the elapsed seconds.
     const Uint64 freq = SDL_GetPerformanceFrequency();
     const Uint64 start = SDL_GetPerformanceCounter();
     Uint64 last = start;
@@ -359,6 +367,7 @@ int main(int argc, char** argv) {
             normal_world[i] = mat4_mul_dir(model, vertex_normals[i]);
         }
 
+        // ---- Draw the frame ----
         clear(rgb(16, 16, 24));
         clear_zbuffer();
 
@@ -382,12 +391,12 @@ int main(int argc, char** argv) {
                 project_and_draw(&out[ot * 3], &materials[current], &scene);
         }
 
-        font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
-        SDL_UpdateTexture(screen_tex, NULL, framebuffer, WIDTH * sizeof(uint32_t));
+        SDL_UpdateTexture(texture, NULL, framebuffer, WIDTH * sizeof(uint32_t));
         SDL_RenderClear(renderer);
         SDL_RenderTexture(renderer, screen_tex, NULL, NULL);
         SDL_RenderPresent(renderer);
 
+        // ---- Update the FPS counter ----
         Uint64 now = SDL_GetPerformanceCounter();
         double dt = (double)(now - last) / (double)freq;
         last = now;
@@ -406,7 +415,7 @@ int main(int argc, char** argv) {
             fps_accum = 0.0;
             fps_count = 0;
         }
-    }
+    }   
 
     free(clip_v); free(normal_world);
     free(face_normals); free(vertex_normals);

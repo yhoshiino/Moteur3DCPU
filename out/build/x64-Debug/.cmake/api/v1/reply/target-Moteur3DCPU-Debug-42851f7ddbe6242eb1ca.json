@@ -34,13 +34,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 19,
+				"line" : 18,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 25,
+				"line" : 24,
 				"parent" : 0
 			},
 			{
@@ -85,7 +85,13 @@
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 27,
+				"line" : 26,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
@@ -99,27 +105,9 @@
 				"file" : 0,
 				"line" : 22,
 				"parent" : 0
-			},
-			{
-				"command" : 5,
-				"file" : 0,
-				"line" : 23,
-				"parent" : 0
 			}
 		]
 	},
-	"codemodelVersion" : 
-	{
-		"major" : 2,
-		"minor" : 10
-	},
-	"compileDependencies" : 
-	[
-		{
-			"backtrace" : 2,
-			"id" : "SDL3-static::@405c074760d2f6728126"
-		}
-	],
 	"compileGroups" : 
 	[
 		{
@@ -133,30 +121,30 @@
 			[
 				{
 					"backtrace" : 10,
-					"define" : "WARP_ASSET_DIR=\"D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets\""
+					"define" : "WARP_ASSET_DIR=\"C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/assets\""
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 11,
-					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/header"
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/header"
 				},
 				{
 					"backtrace" : 12,
-					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets"
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/assets"
 				},
 				{
 					"backtrace" : 13,
-					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/assets/fonts"
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/assets/fonts"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-build/include-revision"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "D:/SteamLibrary/steamapps/common/Celeste/Mods/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
+					"path" : "C:/Users/npeygourdi/Documents/GitHub/Moteur3DCPU/out/build/x64-Debug/_deps/sdl3-src/include"
 				}
 			],
 			"language" : "CXX",
@@ -191,11 +179,7 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "/machine:x64 /debug /INCREMENTAL",
-				"role" : "flags"
-			},
-			{
-				"fragment" : "/subsystem:console",
+				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
 				"role" : "flags"
 			},
 			{
@@ -275,13 +259,6 @@
 		],
 		"language" : "CXX"
 	},
-	"linkLibraries" : 
-	[
-		{
-			"backtrace" : 2,
-			"id" : "SDL3-static::@405c074760d2f6728126"
-		}
-	],
 	"name" : "Moteur3DCPU",
 	"nameOnDisk" : "Moteur3DCPU.exe",
 	"paths" : 

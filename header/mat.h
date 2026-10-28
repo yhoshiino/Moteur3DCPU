@@ -1,5 +1,5 @@
 // ============================================================
-//  mat.h — 4x4 matrices (chapter 5)
+//  mat.h � 4x4 matrices (chapter 5)
 // ------------------------------------------------------------
 //  Chapter 4's matrix module plus the two matrices that make a
 //  3D pipeline: mat_perspective (the projection) and
@@ -33,7 +33,7 @@ static inline mat4 mat4_mul(mat4 a, mat4 b) {
 
 // Apply a matrix to a point, KEEPING the resulting w. The
 // projection matrix puts depth into w, so unlike chapter 4 we
-// must not discard it — the caller does the perspective divide.
+// must not discard it � the caller does the perspective divide.
 static inline vec4 mat4_mul_vec4(mat4 a, vec4 v) {
     vec4 r;
     r.x = a.m[0][0] * v.x + a.m[0][1] * v.y + a.m[0][2] * v.z + a.m[0][3] * v.w;
@@ -45,7 +45,7 @@ static inline vec4 mat4_mul_vec4(mat4 a, vec4 v) {
 
 // Transform a DIRECTION (such as a surface normal) by a matrix.
 // Like transforming a point, but with an implicit w = 0, so the
-// translation column (m[*][3]) is ignored — moving the world doesn't
+// translation column (m[*][3]) is ignored � moving the world doesn't
 // change which way a normal points, only rotating it does. For a
 // pure-rotation matrix this preserves length, so a unit normal stays
 // unit. (Chapter 10.)
@@ -96,7 +96,7 @@ static inline mat4 mat4_rotation_z(float a) {
 
 // Convert an angle in degrees to radians. The trig functions
 // (sinf, cosf, tanf) all expect radians, but degrees are easier to
-// think in — so callers say radians(60.0f) instead of writing
+// think in � so callers say radians(60.0f) instead of writing
 // 60.0f * PI / 180.0f by hand.
 static inline float radians(float degrees) {
     return degrees * 3.14159265358979323846f / 180.0f;
@@ -173,4 +173,11 @@ static inline mat4 mat4_look_at(vec3 eye, vec3 target, vec3 up) {
     m.m[1][3] = -vec3_dot(cam_up, eye);
     m.m[2][3] = -vec3_dot(forward, eye);
     return m;
+}
+
+static inline vec3 mat4_apply_point(mat4 a, vec3 p) {
+    float x = a.m[0][0] * p.x + a.m[0][1] * p.y + a.m[0][2] * p.z + a.m[0][3];
+    float y = a.m[1][0] * p.x + a.m[1][1] * p.y + a.m[1][2] * p.z + a.m[1][3];
+    float z = a.m[2][0] * p.x + a.m[2][1] * p.y + a.m[2][2] * p.z + a.m[2][3];
+    return vec3_make(x, y, z);
 }
