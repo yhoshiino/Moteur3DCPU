@@ -37,15 +37,14 @@
 static uint32_t framebuffer[WIDTH * HEIGHT];
 static float    zbuffer[WIDTH * HEIGHT];
 
+
+
+
 static inline uint32_t rgb(uint8_t r, uint8_t g, uint8_t b) {
     return ((uint32_t)0xFFu << 24)
         | ((uint32_t)r << 16)
         | ((uint32_t)g << 8)
         | (uint32_t)b;
-}
-
-static void clear(uint32_t color) {
-    for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
 }
 
 static void clear_zbuffer(void) {
@@ -244,16 +243,18 @@ static void project_and_draw(const clip_vertex* tri, const Material* mat, const 
         ndc_z[k] = tri[k].clip.z * inv;
         inv_w[k] = inv;
     }
-static void clear(uint32_t color) {
-    for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
-}
 
+    // <<< Ces lignes étaient dans la fausse 2e "clear" : elles reviennent ICI
     if (edge(screen_x[0], screen_y[0], screen_x[1], screen_y[1], screen_x[2], screen_y[2]) >= 0) return;  // cull
 
     draw_triangle_shaded(screen_x[0], screen_y[0], ndc_z[0], inv_w[0], tri[0].uv, tri[0].normal,
         screen_x[1], screen_y[1], ndc_z[1], inv_w[1], tri[1].uv, tri[1].normal,
         screen_x[2], screen_y[2], ndc_z[2], inv_w[2], tri[2].uv, tri[2].normal,
         mat, scene);
+}   // <<< une seule accolade fermante, à la fin
+
+static void clear(uint32_t color) {
+    for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
 }
 
 static void compute_face_normals(const Mesh* mesh, vec3* out) {
@@ -391,7 +392,9 @@ int main(int argc, char** argv) {
                 project_and_draw(&out[ot * 3], &materials[current], &scene);
         }
 
-        SDL_UpdateTexture(texture, NULL, framebuffer, WIDTH * sizeof(uint32_t));
+        font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
+
+        SDL_UpdateTexture(screen_tex, NULL, framebuffer, WIDTH * sizeof(uint32_t));
         SDL_RenderClear(renderer);
         SDL_RenderTexture(renderer, screen_tex, NULL, NULL);
         SDL_RenderPresent(renderer);
