@@ -26,6 +26,9 @@
 #include "color.h"
 #include "material.h"
 
+#include "ecs/entityManager.h"
+#include "components/components.h"
+
 #define WIDTH  800
 #define HEIGHT 600
 #define PI 3.14159265358979323846f
@@ -167,6 +170,7 @@ static void compute_vertex_normals(const Mesh* mesh, const vec3* face_normals, v
 int main(int argc, char** argv) {
     (void)argc; (void)argv;
 
+    // ---- Chargement (inchangé) ----
     Mesh mesh;
     if (!mesh_load(WARP_ASSET_DIR "/spot.obj", &mesh)) return 1;
     printf("loaded spot.obj: %d vertices, %d uvs, %d faces\n",
@@ -189,11 +193,12 @@ int main(int argc, char** argv) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
         return 1;
     }
-    SDL_Window* window = SDL_CreateWindow("Chapter 12 — Shaders", WIDTH, HEIGHT, 0);
+    SDL_Window* window = SDL_CreateWindow("Chapter 12 — Shaders + ECS", WIDTH, HEIGHT, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
     SDL_Texture* screen_tex = SDL_CreateTexture(renderer,
         SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
 
+    // ---- Caméra et lumière (inchangées pour l'instant) ----
     const float aspect = (float)WIDTH / (float)HEIGHT;
     const mat4 projection = mat4_perspective(radians(50.0f), aspect, 0.1f, 100.0f);
     const vec3 eye = vec3_make(0, 0, 3);
@@ -203,13 +208,8 @@ int main(int argc, char** argv) {
 
     const vec3 light = vec3_normalize(vec3_make(0.4f, 0.8f, 0.45f));
     const vec3 half_vec = vec3_normalize(vec3_add(light, vec3_make(0, 0, 1)));
-
-    // Scene-wide data, shared by every material.
     const Scene scene = { light, half_vec };
 
-    // The materials. Field order:
-    //   name, shader, texture, solid colour, ambient, spec strength, bilinear
-    // Material 1 uses the same values as chapter 12 (0.18 / 0.55 / bilinear).
     const Material materials[] = {
         { "Phong",            shader_phong,   &tex, 0,                 0.18f, 0.55f, true  },
         { "Lambert (matte)",  shader_lambert, &tex, 0,                 0.18f, 0.0f,  true  },
@@ -218,15 +218,28 @@ int main(int argc, char** argv) {
         { "Normals",          shader_normals, NULL, 0,                 0.0f,  0.0f,  false },
     };
     const int material_count = (int)(sizeof materials / sizeof materials[0]);
-    int current = 0;
 
+    // ============================================================
+    //  <<< ECS : la vache devient une ENTITÉ avec 3 composants
+    // ============================================================
+    EntityManager ecs;
+
+    Entity spot = ecs.create();
+    ecs.add<Transform>(spot, {});                    // position 0, rotation 0, échelle 1
+    ecs.add<Spin>(spot, { 0.7f });                     // ton 0.7 rad/s, avant écrit en dur
+    ecs.add<MeshRenderer>(spot, { &mesh, &tex, 0 });   // mesh, texture, matériau n°0 (Phong)
+
+    // <<< BONUS (décommente pour une 2e vache : même mesh, autre position/vitesse)
+    // ecs.get<Transform>(spot).position = {-0.9f, 0, 0};
+    // Entity spot2 = ecs.create();
+    // ecs.add<Transform>(spot2, { {0.9f, 0, 0}, 0.0f, 0.6f });
+    // ecs.add<Spin>(spot2, {-1.5f});
+    // ecs.add<MeshRenderer>(spot2, {&mesh, &tex, 0});
+
+    // Tampons réutilisés à chaque image (taille du mesh de Spot).
     vec4* clip_v = (vec4*)malloc(mesh.vert_count * sizeof(vec4));
     vec3* normal_world = (vec3*)malloc(mesh.vert_count * sizeof(vec3));
 
-    // ---- FPS measurement state ----
-    // SDL_GetPerformanceCounter ticks a high-resolution timer.
-    // SDL_GetPerformanceFrequency tells us ticks per second.
-    // So (now - last) / freq is the elapsed seconds.
     const Uint64 freq = SDL_GetPerformanceFrequency();
     const Uint64 start = SDL_GetPerformanceCounter();
     Uint64 last = start;
@@ -241,46 +254,63 @@ int main(int argc, char** argv) {
             if (e.type == SDL_EVENT_QUIT) running = false;
             if (e.type == SDL_EVENT_KEY_DOWN) {
                 if (e.key.key == SDLK_ESCAPE) running = false;
-                // Keys '1'..'5' select a material.
                 int pick = (int)e.key.key - (int)SDLK_1;
-                if (pick >= 0 && pick < material_count) current = pick;
+                // <<< on change le matériau en modifiant le COMPOSANT, plus une variable globale
+                if (pick >= 0 && pick < material_count)
+                    ecs.get<MeshRenderer>(spot).material = pick;
             }
         }
 
-        double seconds = (double)(SDL_GetPerformanceCounter() - start) / (double)freq;
-        float t = (float)seconds;
+        // <<< dt calculé ICI, au début de l'image (avant, il était calculé à la fin)
+        Uint64 now = SDL_GetPerformanceCounter();
+        float dt = (float)((double)(now - last) / (double)freq);
+        last = now;
 
-        mat4 model = mat4_rotation_y(t * 0.7f);
-        mat4 mvp = mat4_mul(projection, mat4_mul(view, model));
+        // ---- SYSTÈME 1 : rotation. Remplace mat4_rotation_y(t * 0.7f) ----
+        ecs.each<Spin, Transform>([dt](Entity, Spin& s, Transform& tr) {
+            tr.rotation_y += s.speed_y * dt;
+            });
 
-        for (int i = 0; i < mesh.vert_count; i++) {
-            clip_v[i] = mat4_mul_vec4(mvp, vec4_from_point(mesh.verts[i]));
-            normal_world[i] = mat4_mul_dir(model, vertex_normals[i]);
-        }
-
-        // ---- Draw the frame ----
         clear(rgb(16, 16, 24));
         clear_zbuffer();
 
-        for (int fidx = 0; fidx < mesh.face_count; fidx++) {
-            int a = mesh.faces[fidx * 3 + 0];
-            int b = mesh.faces[fidx * 3 + 1];
-            int c = mesh.faces[fidx * 3 + 2];
-            int ua = mesh.face_uvs[fidx * 3 + 0];
-            int ub = mesh.face_uvs[fidx * 3 + 1];
-            int uc = mesh.face_uvs[fidx * 3 + 2];
+        // ---- SYSTÈME 2 : rendu. Pour chaque entité qui a Transform ET MeshRenderer ----
+        ecs.each<Transform, MeshRenderer>([&](Entity, Transform& tr, MeshRenderer& mr) {
+            if (!mr.mesh) return;
+            const Mesh& m = *mr.mesh;
+            const Material* material = &materials[mr.material];
 
-            clip_vertex v0, v1, v2;
-            v0.clip = clip_v[a]; v0.normal = normal_world[a]; v0.uv = (ua >= 0) ? mesh.uvs[ua] : vec2_make(0, 0);
-            v1.clip = clip_v[b]; v1.normal = normal_world[b]; v1.uv = (ub >= 0) ? mesh.uvs[ub] : vec2_make(0, 0);
-            v2.clip = clip_v[c]; v2.normal = normal_world[c]; v2.uv = (uc >= 0) ? mesh.uvs[uc] : vec2_make(0, 0);
+            // <<< model construit depuis le Transform : translation * rotation * échelle
+            mat4 model = mat4_mul(
+                mat4_translation(tr.position.x, tr.position.y, tr.position.z),
+                mat4_mul(mat4_rotation_y(tr.rotation_y), mat4_scale(tr.scale)));
+            mat4 mvp = mat4_mul(projection, mat4_mul(view, model));
 
-            clip_vertex out[6];
-            int n_out;
-            clip_triangle_near(v0, v1, v2, out, &n_out);
-            for (int ot = 0; ot < n_out; ot++)
-                project_and_draw(&out[ot * 3], &materials[current], &scene);
-        }
+            for (int i = 0; i < m.vert_count; i++) {
+                clip_v[i] = mat4_mul_vec4(mvp, vec4_from_point(m.verts[i]));
+                normal_world[i] = mat4_mul_dir(model, vertex_normals[i]);
+            }
+
+            for (int fidx = 0; fidx < m.face_count; fidx++) {
+                int a = m.faces[fidx * 3 + 0];
+                int b = m.faces[fidx * 3 + 1];
+                int c = m.faces[fidx * 3 + 2];
+                int ua = m.face_uvs[fidx * 3 + 0];
+                int ub = m.face_uvs[fidx * 3 + 1];
+                int uc = m.face_uvs[fidx * 3 + 2];
+
+                clip_vertex v0, v1, v2;
+                v0.clip = clip_v[a]; v0.normal = normal_world[a]; v0.uv = (ua >= 0) ? m.uvs[ua] : vec2_make(0, 0);
+                v1.clip = clip_v[b]; v1.normal = normal_world[b]; v1.uv = (ub >= 0) ? m.uvs[ub] : vec2_make(0, 0);
+                v2.clip = clip_v[c]; v2.normal = normal_world[c]; v2.uv = (uc >= 0) ? m.uvs[uc] : vec2_make(0, 0);
+
+                clip_vertex out[6];
+                int n_out;
+                clip_triangle_near(v0, v1, v2, out, &n_out);
+                for (int ot = 0; ot < n_out; ot++)
+                    project_and_draw(&out[ot * 3], material, &scene);
+            }
+            });
 
         font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
 
@@ -289,26 +319,23 @@ int main(int argc, char** argv) {
         SDL_RenderTexture(renderer, screen_tex, NULL, NULL);
         SDL_RenderPresent(renderer);
 
-        // ---- Update the FPS counter ----
-        Uint64 now = SDL_GetPerformanceCounter();
-        double dt = (double)(now - last) / (double)freq;
-        last = now;
+        // ---- Compteur FPS (utilise le dt calculé plus haut) ----
         fps_accum += dt;
         fps_count += 1;
         if (fps_accum >= 1.0) {
             double fps = (double)fps_count / fps_accum;
             double ms = 1000.0 * fps_accum / (double)fps_count;
+            int cur = ecs.get<MeshRenderer>(spot).material;   // <<< lu depuis le composant
 
             snprintf(hud, sizeof hud, "%.1f FPS", fps);
-
             snprintf(title, sizeof title,
-                "Chapter 12 — Shaders  |  [%d] %s  |  %.1f FPS  (%.2f ms)",
-                current + 1, materials[current].name, fps, ms);
+                "Chapter 12 — Shaders + ECS  |  [%d] %s  |  %.1f FPS  (%.2f ms)",
+                cur + 1, materials[cur].name, fps, ms);
             SDL_SetWindowTitle(window, title);
             fps_accum = 0.0;
             fps_count = 0;
         }
-    }   
+    }
 
     free(clip_v); free(normal_world);
     free(face_normals); free(vertex_normals);
