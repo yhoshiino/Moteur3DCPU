@@ -283,7 +283,10 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6,
+				7,
+				8
 			]
 		}
 	],
@@ -318,6 +321,21 @@
 		{
 			"backtrace" : 1,
 			"path" : "header/clip.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/ecs/componentStorage.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/ecs/entityManager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "header/ecs/sparse.h",
 			"sourceGroupIndex" : 1
 		}
 	],
