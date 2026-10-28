@@ -13,6 +13,8 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+out/
+*.exe
 
 ### CMake Patch ###
 CMakeUserPresets.json
@@ -421,7 +423,3 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/cmake,visualstudio
-
-# Visual Studio CMake build output
-out/
-*.exe

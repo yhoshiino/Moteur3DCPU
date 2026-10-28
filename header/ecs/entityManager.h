@@ -11,7 +11,9 @@ struct cTest
 class EntityManager {
 private:
 
-	std::vector<Interface*> ragebait;
+	std::vector<Interface*> _storages;   // _storages[componentId<T>()] = stockage de T
+	std::vector<Entity>     _freeIds;    // ids recyclables
+	Entity                  _next = 0;
 
 public:
 

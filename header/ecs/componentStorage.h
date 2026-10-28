@@ -18,7 +18,7 @@ public:
 
 	T add() override {
 
-	}
+	};
 
 
 
