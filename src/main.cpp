@@ -4,9 +4,7 @@
 //  The rasterizer no longer decides the colour of a pixel. It
 //  interpolates the per-pixel data (normal, UV, depth), packs it
 //  in a FragmentInput, and asks the object's MATERIAL which
-//  SHADER to call. The shader returns the colour.
-//
-//    rasterizer  -> FragmentInput -> shader(mat, scene) -> colour
+//  SHADER to call (see material.h). The shader returns the colour.
 //
 //  Keys 1..5 switch the material of the cow at runtime.
 //  Key 1 (Phong) must look exactly like chapter 12.
@@ -25,6 +23,8 @@
 #include "obj.h"
 #include "texture.h"
 #include "clip.h"
+#include "color.h"
+#include "material.h"
 
 #define WIDTH  800
 #define HEIGHT 600
@@ -47,6 +47,10 @@ static inline uint32_t rgb(uint8_t r, uint8_t g, uint8_t b) {
         | (uint32_t)b;
 }
 
+static void clear(uint32_t color) {
+    for (int i = 0; i < WIDTH * HEIGHT; i++) framebuffer[i] = color;
+}
+
 static void clear_zbuffer(void) {
     for (int i = 0; i < WIDTH * HEIGHT; i++) zbuffer[i] = 1e30f;
 }
@@ -57,110 +61,6 @@ static inline int edge(int ax, int ay, int bx, int by, int px, int py) {
 
 static inline int clampi(int v, int lo, int hi) {
     return v < lo ? lo : (v > hi ? hi : v);
-}
-
-static inline float pow32(float x) {
-    float x2 = x * x, x4 = x2 * x2, x8 = x4 * x4, x16 = x8 * x8;
-    return x16 * x16;
-}
-
-static inline uint32_t color_phong(uint32_t texel, float diffuse_k, float spec_k) {
-    float r = (float)((texel >> 16) & 0xFF) * diffuse_k + 255.0f * spec_k;
-    float g = (float)((texel >> 8) & 0xFF) * diffuse_k + 255.0f * spec_k;
-    float b = (float)(texel & 0xFF) * diffuse_k + 255.0f * spec_k;
-    if (r > 255.0f) r = 255.0f;
-    if (g > 255.0f) g = 255.0f;
-    if (b > 255.0f) b = 255.0f;
-    return ((uint32_t)0xFFu << 24)
-        | ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
-}
-
-// ============================================================
-//  Shader system
-// ============================================================
-
-// What the rasterizer gives the shader for ONE pixel. These values
-// change from pixel to pixel ("varyings"): they are interpolated.
-typedef struct {
-    vec3  normal;   // interpolated and re-normalised, world space
-    vec2  uv;       // perspective-correct texture coordinate
-    float depth;    // NDC z of this pixel
-} FragmentInput;
-
-// What is the same for the WHOLE scene ("uniforms" of the scene).
-typedef struct {
-    vec3 light;      // unit vector pointing TOWARD the light
-    vec3 half_vec;   // halfway between light and viewer (Blinn-Phong)
-} Scene;
-
-// A shader is a function: (pixel data, material, scene) -> colour.
-// Returning a colour with alpha == 0 means "discard this pixel".
-struct Material;
-typedef uint32_t(*FragmentShader)(const FragmentInput* in,
-    const struct Material* mat, const Scene* scene);
-
-// A material = the parameters of ONE object + which shader uses them
-// ("uniforms" of the object). Two materials can share one shader.
-typedef struct Material {
-    const char* name;
-    FragmentShader shader;
-    const Texture* tex;
-    uint32_t       color;          // used by the solid-colour shader
-    float          ambient;
-    float          spec_strength;
-    bool           bilinear;
-} Material;
-
-static inline uint32_t sample_texture(const Material* mat, vec2 uv) {
-    return mat->bilinear
-        ? texture_sample_bilinear(mat->tex, uv.x, uv.y)
-        : texture_sample(mat->tex, uv.x, uv.y);
-}
-
-// ---- The shaders ---------------------------------------------
-
-// Texture * (ambient + diffuse) + white specular. This is exactly
-// the code that used to be inside draw_triangle_phong.
-static uint32_t shader_phong(const FragmentInput* in, const Material* mat, const Scene* scene) {
-    float ndotl = vec3_dot(in->normal, scene->light);
-    if (ndotl < 0.0f) ndotl = 0.0f;
-    float diffuse_k = mat->ambient + (1.0f - mat->ambient) * ndotl;
-
-    float ndoth = vec3_dot(in->normal, scene->half_vec);
-    if (ndoth < 0.0f) ndoth = 0.0f;
-    float spec_k = pow32(ndoth) * mat->spec_strength;
-
-    return color_phong(sample_texture(mat, in->uv), diffuse_k, spec_k);
-}
-
-// Same as Phong but without the specular highlight (matte).
-static uint32_t shader_lambert(const FragmentInput* in, const Material* mat, const Scene* scene) {
-    float ndotl = vec3_dot(in->normal, scene->light);
-    if (ndotl < 0.0f) ndotl = 0.0f;
-    float diffuse_k = mat->ambient + (1.0f - mat->ambient) * ndotl;
-
-    return color_phong(sample_texture(mat, in->uv), diffuse_k, 0.0f);
-}
-
-// Texture only, no lighting at all.
-static uint32_t shader_texture(const FragmentInput* in, const Material* mat, const Scene* scene) {
-    (void)scene;
-    return sample_texture(mat, in->uv) | 0xFF000000u;
-}
-
-// One flat colour, ignores everything else.
-static uint32_t shader_solid(const FragmentInput* in, const Material* mat, const Scene* scene) {
-    (void)in; (void)scene;
-    return mat->color;
-}
-
-// Debug shader: shows the normal as a colour. N is in [-1, 1] on each
-// axis, so (N * 0.5 + 0.5) brings it to [0, 1], then * 255.
-static uint32_t shader_normals(const FragmentInput* in, const Material* mat, const Scene* scene) {
-    (void)mat; (void)scene;
-    return rgb((uint8_t)((in->normal.x * 0.5f + 0.5f) * 255.0f),
-        (uint8_t)((in->normal.y * 0.5f + 0.5f) * 255.0f),
-        (uint8_t)((in->normal.z * 0.5f + 0.5f) * 255.0f));
 }
 
 // ============================================================
@@ -319,7 +219,7 @@ int main(int argc, char** argv) {
 
     // The materials. Field order:
     //   name, shader, texture, solid colour, ambient, spec strength, bilinear
-    // Material 1 uses the same values as the old #defines (0.18 / 0.55 / bilinear).
+    // Material 1 uses the same values as chapter 12 (0.18 / 0.55 / bilinear).
     const Material materials[] = {
         { "Phong",            shader_phong,   &tex, 0,                 0.18f, 0.55f, true  },
         { "Lambert (matte)",  shader_lambert, &tex, 0,                 0.18f, 0.0f,  true  },
