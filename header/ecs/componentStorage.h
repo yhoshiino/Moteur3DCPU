@@ -1,10 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "entity.h"
 
-
-using Entity = uint32_t;
-constexpr uint32_t NONE = UINT32_MAX;
 
 class Interface {
 public:                                          
