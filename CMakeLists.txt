@@ -15,7 +15,7 @@ set(SDL_STATIC ON  CACHE BOOL "" FORCE)
 set(SDL_TEST_LIBRARY OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(SDL3)
 
-add_executable(Moteur3DCPU src/main.cpp "header/vec.h" "header/mat.h" "header/obj.h" "header/texture.h" "header/clip.h" "header/ecs/componentStorage.h" "header/ecs/entityManager.h" "header/ecs/sparse.h" "header/components/components.h" "header/components/transform.h" "header/components/physics.h" "header/components/render.h")
+add_executable(Moteur3DCPU src/main.cpp "header/vec.h" "header/mat.h" "header/obj.h" "header/texture.h" "header/clip.h" "header/ecs/componentStorage-Claude.h" "header/ecs/entityManager-CLAUDEHAAAAA.h" "header/ecs/sparse.h" "header/components/components.h" "header/components/transform.h" "header/components/physics.h" "header/components/render.h" "src/entityManager.cpp" "header/ecs/entityManager.h" "header/ecs/componentStorage.h" )
 
 target_include_directories(Moteur3DCPU PRIVATE header)
 target_include_directories(Moteur3DCPU PRIVATE assets)

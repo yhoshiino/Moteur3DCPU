@@ -219,22 +219,21 @@ int main(int argc, char** argv) {
     };
     const int material_count = (int)(sizeof materials / sizeof materials[0]);
 
-    // ============================================================
-    //  <<< ECS : la vache devient une ENTITÉ avec 3 composants
-    // ============================================================
-    EntityManager ecs;
 
-    Entity spot = ecs.create();
-    ecs.add<Transform>(spot, {});                    // position 0, rotation 0, échelle 1
-    ecs.add<Spin>(spot, { 0.7f });                     // ton 0.7 rad/s, avant écrit en dur
-    ecs.add<MeshRenderer>(spot, { &mesh, &tex, 0 });   // mesh, texture, matériau n°0 (Phong)
+    entityManager ecs;
 
-    // <<< BONUS (décommente pour une 2e vache : même mesh, autre position/vitesse)
-    // ecs.get<Transform>(spot).position = {-0.9f, 0, 0};
-    // Entity spot2 = ecs.create();
-    // ecs.add<Transform>(spot2, { {0.9f, 0, 0}, 0.0f, 0.6f });
-    // ecs.add<Spin>(spot2, {-1.5f});
-    // ecs.add<MeshRenderer>(spot2, {&mesh, &tex, 0});
+    int entity1 = 1;
+    int entity2 = 2;
+
+    Transform transform;
+    transform.scale = 2.f;
+    MeshRenderer Renderer;
+    Renderer.material = 1;
+
+    int TransformID = ecs.addComponentType<Transform>();
+    int RenderID = ecs.addComponentType<MeshRenderer>();
+
+    ecs.addComponent(entity1, TransformID, (void*)&transform);
 
     // Tampons réutilisés à chaque image (taille du mesh de Spot).
     vec4* clip_v = (vec4*)malloc(mesh.vert_count * sizeof(vec4));
@@ -255,9 +254,8 @@ int main(int argc, char** argv) {
             if (e.type == SDL_EVENT_KEY_DOWN) {
                 if (e.key.key == SDLK_ESCAPE) running = false;
                 int pick = (int)e.key.key - (int)SDLK_1;
-                // <<< on change le matériau en modifiant le COMPOSANT, plus une variable globale
-                if (pick >= 0 && pick < material_count)
-                    ecs.get<MeshRenderer>(spot).material = pick;
+                
+                
             }
         }
 
@@ -266,51 +264,12 @@ int main(int argc, char** argv) {
         float dt = (float)((double)(now - last) / (double)freq);
         last = now;
 
-        // ---- SYSTÈME 1 : rotation. Remplace mat4_rotation_y(t * 0.7f) ----
-        ecs.each<Spin, Transform>([dt](Entity, Spin& s, Transform& tr) {
-            tr.rotation_y += s.speed_y * dt;
-            });
+        
 
         clear(rgb(16, 16, 24));
         clear_zbuffer();
 
-        // ---- SYSTÈME 2 : rendu. Pour chaque entité qui a Transform ET MeshRenderer ----
-        ecs.each<Transform, MeshRenderer>([&](Entity, Transform& tr, MeshRenderer& mr) {
-            if (!mr.mesh) return;
-            const Mesh& m = *mr.mesh;
-            const Material* material = &materials[mr.material];
-
-            // <<< model construit depuis le Transform : translation * rotation * échelle
-            mat4 model = mat4_mul(
-                mat4_translation(tr.position.x, tr.position.y, tr.position.z),
-                mat4_mul(mat4_rotation_y(tr.rotation_y), mat4_scale(tr.scale)));
-            mat4 mvp = mat4_mul(projection, mat4_mul(view, model));
-
-            for (int i = 0; i < m.vert_count; i++) {
-                clip_v[i] = mat4_mul_vec4(mvp, vec4_from_point(m.verts[i]));
-                normal_world[i] = mat4_mul_dir(model, vertex_normals[i]);
-            }
-
-            for (int fidx = 0; fidx < m.face_count; fidx++) {
-                int a = m.faces[fidx * 3 + 0];
-                int b = m.faces[fidx * 3 + 1];
-                int c = m.faces[fidx * 3 + 2];
-                int ua = m.face_uvs[fidx * 3 + 0];
-                int ub = m.face_uvs[fidx * 3 + 1];
-                int uc = m.face_uvs[fidx * 3 + 2];
-
-                clip_vertex v0, v1, v2;
-                v0.clip = clip_v[a]; v0.normal = normal_world[a]; v0.uv = (ua >= 0) ? m.uvs[ua] : vec2_make(0, 0);
-                v1.clip = clip_v[b]; v1.normal = normal_world[b]; v1.uv = (ub >= 0) ? m.uvs[ub] : vec2_make(0, 0);
-                v2.clip = clip_v[c]; v2.normal = normal_world[c]; v2.uv = (uc >= 0) ? m.uvs[uc] : vec2_make(0, 0);
-
-                clip_vertex out[6];
-                int n_out;
-                clip_triangle_near(v0, v1, v2, out, &n_out);
-                for (int ot = 0; ot < n_out; ot++)
-                    project_and_draw(&out[ot * 3], material, &scene);
-            }
-            });
+       
 
         font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
 
@@ -325,12 +284,12 @@ int main(int argc, char** argv) {
         if (fps_accum >= 1.0) {
             double fps = (double)fps_count / fps_accum;
             double ms = 1000.0 * fps_accum / (double)fps_count;
-            int cur = ecs.get<MeshRenderer>(spot).material;   // <<< lu depuis le composant
+            
 
             snprintf(hud, sizeof hud, "%.1f FPS", fps);
             snprintf(title, sizeof title,
                 "Chapter 12 — Shaders + ECS  |  [%d] %s  |  %.1f FPS  (%.2f ms)",
-                cur + 1, materials[cur].name, fps, ms);
+                 1, materials[1].name, fps, ms);
             SDL_SetWindowTitle(window, title);
             fps_accum = 0.0;
             fps_count = 0;

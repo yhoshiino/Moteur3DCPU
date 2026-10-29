@@ -3,7 +3,7 @@
 #include "texture.h"
 
 struct MeshRenderer {
-    const Mesh* mesh = nullptr;       // le composant ne POSSÈDE pas le mesh
+    const Mesh* mesh = nullptr;      
     const Texture* texture = nullptr;
-    int            material = 0;         // indice dans le tableau de matériaux
+    int            material = 0;     
 };
