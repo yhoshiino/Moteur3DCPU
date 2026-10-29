@@ -13,7 +13,7 @@ public:
     virtual ~IComponentStorage() = default;
     virtual void Remove(Entity e) = 0;
     virtual void Add(Entity e, void* value) = 0;
-    virtual std::any& Get(Entity e) = 0;
+    virtual void* Get(Entity e) = 0;
     virtual bool Has(Entity e) = 0;
 };
 
@@ -37,7 +37,7 @@ public:
     }
 
     void* Get(Entity e) override {
-        assert(!Has(e) && "composant non existant");
+        assert(Has(e) && "composant non existant");
         return (void*)&Data[e];
     }
 

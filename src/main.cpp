@@ -234,6 +234,16 @@ int main(int argc, char** argv) {
     int RenderID = ecs.addComponentType<MeshRenderer>();
 
     ecs.addComponent(entity1, TransformID, (void*)&transform);
+	ecs.addComponent(entity1, RenderID, (void*)&Renderer);
+
+    ecs.addComponent(entity2, TransformID, (void*)&transform);
+    ecs.addComponent(entity2, RenderID, (void*)&Renderer);
+
+	//std::cout << "Entity 1 has Transform: " << ecs.Storage[TransformID]->Has(entity1) << std::endl;
+	if (ecs.hasComponent(entity1, TransformID)) {
+		Transform* t = ecs.getComponent<Transform>(entity1, TransformID);
+		std::cout << "Entity 1 Transform scale: " << t->scale << std::endl;
+	}
 
     // Tampons réutilisés à chaque image (taille du mesh de Spot).
     vec4* clip_v = (vec4*)malloc(mesh.vert_count * sizeof(vec4));
