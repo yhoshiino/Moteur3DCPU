@@ -8,8 +8,10 @@ class entityManager {
 private:
 
 	std::vector<IComponentStorage*> Storage;
+	std::vector<bool> Exists{};
+	std::vector<Entity> UsableIDs;
 
-	
+	int counter = 0;
 
 public:
 
@@ -34,6 +36,30 @@ public:
 		Storage[componentID]->Add(entity, value);
 	}
 
+	void removeComponent(Entity e, int componentID) {
+		Storage[componentID]->Remove(e);
+	};
 
+
+	int createEntity(std::string name) {
+		if (name.empty()) {
+			name = "entity";
+		}
+		else
+			name = name;
+
+		if (!UsableIDs.empty()) {
+			Entity e = UsableIDs.back();
+			UsableIDs.pop_back();
+			return static_cast<int>(e);
+		}
+		return ++counter;
+	};
+
+
+	void destroyEntity(Entity e) {
+		UsableIDs.push_back(e);
+
+	};
 
 };

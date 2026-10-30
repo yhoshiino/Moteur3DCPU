@@ -222,6 +222,12 @@ int main(int argc, char** argv) {
 
     entityManager ecs;
 
+
+    int TransformID = ecs.addComponentType<Transform>();
+    int RenderID = ecs.addComponentType<MeshRenderer>();
+    int PhysicsVID = ecs.addComponentType<Velocity>();
+    int PhysicsSID = ecs.addComponentType<Spin>();
+
     int entity1 = 1;
     int entity2 = 2;
 
@@ -230,8 +236,7 @@ int main(int argc, char** argv) {
     MeshRenderer Renderer;
     Renderer.material = 1;
 
-    int TransformID = ecs.addComponentType<Transform>();
-    int RenderID = ecs.addComponentType<MeshRenderer>();
+
 
     ecs.addComponent(entity1, TransformID, (void*)&transform);
 	ecs.addComponent(entity1, RenderID, (void*)&Renderer);

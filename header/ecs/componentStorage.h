@@ -20,12 +20,15 @@ public:
 template <typename T>
 class componentStorage : public IComponentStorage {
 private:
-
-    std::array<T, 100>    Data;
-    std::array<bool, 100> Owned;
+    
+    std::array<T, MAX_ENTITIES>    Data;
+    std::array<bool, MAX_ENTITIES> Owned{};
 
 
 public:
+
+    componentStorage() = default;
+    
 
     void Add(Entity e, void* value) override {
         Data[e] = *(static_cast<T*>(value));
