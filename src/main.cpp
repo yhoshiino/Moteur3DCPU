@@ -170,7 +170,6 @@ static void compute_vertex_normals(const Mesh* mesh, const vec3* face_normals, v
 int main(int argc, char** argv) {
     (void)argc; (void)argv;
 
-    // ---- Chargement (inchangé) ----
     Mesh mesh;
     if (!mesh_load(WARP_ASSET_DIR "/spot.obj", &mesh)) return 1;
     printf("loaded spot.obj: %d vertices, %d uvs, %d faces\n",
@@ -228,21 +227,35 @@ int main(int argc, char** argv) {
     int PhysicsVID = ecs.addComponentType<Velocity>();
     int PhysicsSID = ecs.addComponentType<Spin>();
 
-    int entity1 = 1;
-    int entity2 = 2;
+    int entity1 = ecs.createEntity("Vache droite");
+    int entity2 = ecs.createEntity("Vache Gauche");
 
     Transform transform;
-    transform.scale = 2.f;
+	transform.position = vec3_make(-0.5f, 0.0f, 0.0f);
+    transform.scale = 0.5f;
     MeshRenderer Renderer;
-    Renderer.material = 1;
+	Renderer.mesh = &mesh;
+	Renderer.texture = &tex;
+    Renderer.material = 0;
 
-
+	Spin spin;
+    spin.speed_y = 0.7f;
 
     ecs.addComponent(entity1, TransformID, (void*)&transform);
 	ecs.addComponent(entity1, RenderID, (void*)&Renderer);
+	ecs.addComponent(entity1, PhysicsSID, (void*)&spin);
 
-    ecs.addComponent(entity2, TransformID, (void*)&transform);
+    Transform transform2;
+    transform2.position = vec3_make(0.5f, 0.0f, 0.0f);
+    transform2.scale = 0.25f;
+
+	Spin spin2;
+	spin2.speed_y = 1.5f;
+
+
+    ecs.addComponent(entity2, TransformID, (void*)&transform2);
     ecs.addComponent(entity2, RenderID, (void*)&Renderer);
+	ecs.addComponent(entity2, PhysicsSID, (void*)&spin2);
 
 	//std::cout << "Entity 1 has Transform: " << ecs.Storage[TransformID]->Has(entity1) << std::endl;
 	if (ecs.hasComponent(entity1, TransformID)) {
@@ -270,7 +283,13 @@ int main(int argc, char** argv) {
                 if (e.key.key == SDLK_ESCAPE) running = false;
                 int pick = (int)e.key.key - (int)SDLK_1;
                 
-                
+                if (pick >= 0 && pick < material_count) {
+					for (int id = 1; id <= ecs.entityCount(); id++) {
+						if (ecs.hasComponent(id, RenderID)) {
+							ecs.getComponent<MeshRenderer>(id, RenderID)->material = pick;
+						}
+					}
+                }
             }
         }
 
@@ -284,8 +303,51 @@ int main(int argc, char** argv) {
         clear(rgb(16, 16, 24));
         clear_zbuffer();
 
-       
+        for (int id = 1; id <= ecs.entityCount(); id++) {
+            if (!ecs.hasComponent(id, TransformID) || !ecs.hasComponent(id, PhysicsSID)) continue;
+            Transform* tr = ecs.getComponent<Transform>(id, TransformID);
+            Spin* sp = ecs.getComponent<Spin>(id, PhysicsSID);
+            tr->rotation_y += sp->speed_y * dt;
+        }
 
+        for (int id = 1; id <= ecs.entityCount(); id++) {
+            if (!ecs.hasComponent(id, TransformID) || !ecs.hasComponent(id, RenderID)) continue;
+            Transform* tr = ecs.getComponent<Transform>(id, TransformID);
+            MeshRenderer* mr = ecs.getComponent<MeshRenderer>(id, RenderID);
+            if (!mr->mesh) continue;
+            const Mesh& m = *mr->mesh;
+            const Material* material = &materials[mr->material];
+
+            mat4 model = mat4_mul(
+                mat4_translation(tr->position.x, tr->position.y, tr->position.z),
+                mat4_mul(mat4_rotation_y(tr->rotation_y), mat4_scale(tr->scale)));
+            mat4 mvp = mat4_mul(projection, mat4_mul(view, model));
+
+            for (int i = 0; i < m.vert_count; i++) {
+                clip_v[i] = mat4_mul_vec4(mvp, vec4_from_point(m.verts[i]));
+                normal_world[i] = mat4_mul_dir(model, vertex_normals[i]);
+            }
+
+            for (int fidx = 0; fidx < m.face_count; fidx++) {
+                int a = m.faces[fidx * 3 + 0];
+                int b = m.faces[fidx * 3 + 1];
+                int c = m.faces[fidx * 3 + 2];
+                int ua = m.face_uvs[fidx * 3 + 0];
+                int ub = m.face_uvs[fidx * 3 + 1];
+                int uc = m.face_uvs[fidx * 3 + 2];
+
+                clip_vertex v0, v1, v2;
+                v0.clip = clip_v[a]; v0.normal = normal_world[a]; v0.uv = (ua >= 0) ? m.uvs[ua] : vec2_make(0, 0);
+                v1.clip = clip_v[b]; v1.normal = normal_world[b]; v1.uv = (ub >= 0) ? m.uvs[ub] : vec2_make(0, 0);
+                v2.clip = clip_v[c]; v2.normal = normal_world[c]; v2.uv = (uc >= 0) ? m.uvs[uc] : vec2_make(0, 0);
+
+                clip_vertex out[6];
+                int n_out;
+                clip_triangle_near(v0, v1, v2, out, &n_out);
+                for (int ot = 0; ot < n_out; ot++)
+                    project_and_draw(&out[ot * 3], material, &scene);
+            }
+        }
         font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
 
         SDL_UpdateTexture(screen_tex, NULL, framebuffer, WIDTH * sizeof(uint32_t));
@@ -302,9 +364,10 @@ int main(int argc, char** argv) {
             
 
             snprintf(hud, sizeof hud, "%.1f FPS", fps);
+            int cur = ecs.getComponent<MeshRenderer>(entity1, RenderID)->material;
             snprintf(title, sizeof title,
                 "Chapter 12 — Shaders + ECS  |  [%d] %s  |  %.1f FPS  (%.2f ms)",
-                 1, materials[1].name, fps, ms);
+                cur + 1, materials[cur].name, fps, ms);
             SDL_SetWindowTitle(window, title);
             fps_accum = 0.0;
             fps_count = 0;

@@ -28,6 +28,10 @@ public:
 		return static_cast<TComponent*>(Storage[componentID]->Get(entity));
 	}
 
+	int entityCount() {
+		return counter;
+	}
+
 	bool hasComponent(int entity, int componentID) {
 		return Storage[componentID]->Has(entity);
 	}
@@ -41,13 +45,8 @@ public:
 	};
 
 
-	int createEntity(std::string name) {
-		if (name.empty()) {
-			name = "entity";
-		}
-		else
-			name = name;
-
+	int createEntity(std::string name = "entity") {
+		(void)name;
 		if (!UsableIDs.empty()) {
 			Entity e = UsableIDs.back();
 			UsableIDs.pop_back();
@@ -59,7 +58,11 @@ public:
 
 	void destroyEntity(Entity e) {
 		UsableIDs.push_back(e);
-
+		for (int i = 0; i < Storage.size(); i++) {
+			if (Storage[i]->Has(e)) {
+				Storage[i]->Remove(e);
+			}
+		}
 	};
 
 };
