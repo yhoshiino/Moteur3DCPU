@@ -40,7 +40,7 @@ public:
     }
 
     void* Get(Entity e) override {
-        assert(Has(e) && "composant non existant");
+		if (!Has(e)) return nullptr;
         return (void*)&Data[e];
     }
 
