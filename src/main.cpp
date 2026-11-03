@@ -226,6 +226,9 @@ int main(int argc, char** argv) {
     int RenderID = ecs.addComponentType<MeshRenderer>();
     int PhysicsVID = ecs.addComponentType<Velocity>();
     int PhysicsSID = ecs.addComponentType<Spin>();
+    int CameraID = ecs.addComponentType<Camera>();
+
+    int camera = ecs.createEntity("Camera");
 
     int entity1 = ecs.createEntity("Vache droite");
     int entity2 = ecs.createEntity("Vache Gauche");
@@ -257,6 +260,10 @@ int main(int argc, char** argv) {
     ecs.addComponent(entity2, RenderID, (void*)&Renderer);
 	ecs.addComponent(entity2, PhysicsSID, (void*)&spin2);
 
+    Camera camera1;
+    ecs.addComponent(camera, CameraID, (void*)&camera1);
+    Camera* cam = ecs.getComponent<Camera>(camera, CameraID);
+
 	//std::cout << "Entity 1 has Transform: " << ecs.Storage[TransformID]->Has(entity1) << std::endl;
 	if (ecs.hasComponent(entity1, TransformID)) {
 		Transform* t = ecs.getComponent<Transform>(entity1, TransformID);
@@ -283,6 +290,11 @@ int main(int argc, char** argv) {
                 if (e.key.key == SDLK_ESCAPE) running = false;
                 int pick = (int)e.key.key - (int)SDLK_1;
                 
+                if (e.type == SDL_EVENT_MOUSE_MOTION && SDL_GetWindowRelativeMouseMode(window)) {
+                    cam->yaw += e.motion.xrel * cam->sensitivity;
+                    cam->pitch -= e.motion.yrel * cam->sensitivity;
+                }
+
                 if (pick >= 0 && pick < material_count) {
 					for (int id = 1; id <= ecs.entityCount(); id++) {
 						if (ecs.hasComponent(id, RenderID)) {
@@ -293,10 +305,52 @@ int main(int argc, char** argv) {
             }
         }
 
-        // <<< dt calculé ICI, au début de l'image (avant, il était calculé à la fin)
         Uint64 now = SDL_GetPerformanceCounter();
         float dt = (float)((double)(now - last) / (double)freq);
         last = now;
+
+
+        const bool* keys = SDL_GetKeyboardState(NULL);
+
+        float turn = 1.5f * dt;
+        if (keys[SDL_SCANCODE_LEFT])  cam->yaw -= turn;
+        if (keys[SDL_SCANCODE_RIGHT]) cam->yaw += turn;
+        if (keys[SDL_SCANCODE_UP])    cam->pitch += turn;
+        if (keys[SDL_SCANCODE_DOWN])  cam->pitch -= turn;
+
+        if (cam->pitch > 1.5f) cam->pitch = 1.5f;
+        if (cam->pitch < -1.5f) cam->pitch = -1.5f;
+
+
+        vec3 forward = vec3_make(cosf(cam->pitch) * sinf(cam->yaw),
+            sinf(cam->pitch),
+            -cosf(cam->pitch) * cosf(cam->yaw));
+        vec3 right = vec3_normalize(vec3_cross(forward, vec3_make(0, 1, 0)));
+
+        float step = cam->speed * dt * (keys[SDL_SCANCODE_LSHIFT] ? 3.0f : 1.0f);
+        if (keys[SDL_SCANCODE_W]) 
+            cam->position = vec3_add(cam->position, vec3_scale(forward, step));
+
+        if (keys[SDL_SCANCODE_S]) 
+            cam->position = vec3_sub(cam->position, vec3_scale(forward, step));
+
+        if (keys[SDL_SCANCODE_D]) 
+            cam->position = vec3_add(cam->position, vec3_scale(right, step));
+
+        if (keys[SDL_SCANCODE_A]) 
+            cam->position = vec3_sub(cam->position, vec3_scale(right, step));
+
+
+        if (keys[SDL_SCANCODE_SPACE])
+            cam->position.y += step;
+        if (keys[SDL_SCANCODE_LCTRL])
+            cam->position.y -= step;
+
+        mat4 view = mat4_look_at(cam->position, vec3_add(cam->position, forward), vec3_make(0, 1, 0));
+
+        vec3 half_vec = vec3_normalize(vec3_add(light, vec3_scale(forward, -1.0f)));
+        Scene scene = { light, half_vec };
+
 
         
 
