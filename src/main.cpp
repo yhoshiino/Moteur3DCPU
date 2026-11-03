@@ -25,6 +25,7 @@
 #include "clip.h"
 #include "color.h"
 #include "material.h"
+#include "particle.h"
 
 #include "ecs/entityManager.h"
 #include "components/components.h"
@@ -58,6 +59,9 @@ static inline int edge(int ax, int ay, int bx, int by, int px, int py) {
 static inline int clampi(int v, int lo, int hi) {
     return v < lo ? lo : (v > hi ? hi : v);
 }
+
+// Transparence : alpha de l'objet en cours de dessin (255 = opaque).
+static uint8_t current_alpha = 255;
 
 // ============================================================
 //  Rasterizer: same as chapter 12, except the end of the pixel loop
@@ -122,9 +126,13 @@ static void draw_triangle_shaded(
             uint32_t color = mat->shader(&in, mat, scene);
             if ((color >> 24) == 0) continue;     // shader discarded the pixel
 
-            // The z-buffer stays the rasterizer's job, never the shader's.
-            zbuffer[idx] = z;
-            framebuffer[idx] = color;
+            if (current_alpha == 255) {
+                zbuffer[idx] = z;                 // opaque : on remplace et on note la profondeur
+                framebuffer[idx] = color;
+            }
+            else {                              // transparent : on mélange, sans écrire la profondeur
+                framebuffer[idx] = color_blend(color, framebuffer[idx], current_alpha);
+            }
         }
     }
 }
@@ -231,37 +239,37 @@ int main(int argc, char** argv) {
     int entity2 = ecs.createEntity("Vache Gauche");
 
     Transform transform;
-	transform.position = vec3_make(-0.5f, 0.0f, 0.0f);
+    transform.position = vec3_make(-0.5f, 0.0f, 0.0f);
     transform.scale = 0.5f;
     MeshRenderer Renderer;
-	Renderer.mesh = &mesh;
-	Renderer.texture = &tex;
+    Renderer.mesh = &mesh;
+    Renderer.texture = &tex;
     Renderer.material = 0;
 
-	Spin spin;
+    Spin spin;
     spin.speed_y = 0.7f;
 
     ecs.addComponent(entity1, TransformID, (void*)&transform);
-	ecs.addComponent(entity1, RenderID, (void*)&Renderer);
-	ecs.addComponent(entity1, PhysicsSID, (void*)&spin);
+    ecs.addComponent(entity1, RenderID, (void*)&Renderer);
+    ecs.addComponent(entity1, PhysicsSID, (void*)&spin);
 
     Transform transform2;
-    transform2.position = vec3_make(0.5f, 0.0f, 0.0f);
-    transform2.scale = 0.25f;
+    transform2.position = vec3_make(-0.3f, 0.0f, 1.0f);
+    transform2.scale = 0.5f;
 
-	Spin spin2;
-	spin2.speed_y = 1.5f;
+    Spin spin2;
+    spin2.speed_y = 1.5f;
 
 
     ecs.addComponent(entity2, TransformID, (void*)&transform2);
     ecs.addComponent(entity2, RenderID, (void*)&Renderer);
-	ecs.addComponent(entity2, PhysicsSID, (void*)&spin2);
+    ecs.addComponent(entity2, PhysicsSID, (void*)&spin2);
 
-	//std::cout << "Entity 1 has Transform: " << ecs.Storage[TransformID]->Has(entity1) << std::endl;
-	if (ecs.hasComponent(entity1, TransformID)) {
-		Transform* t = ecs.getComponent<Transform>(entity1, TransformID);
-		std::cout << "Entity 1 Transform scale: " << t->scale << std::endl;
-	}
+    //std::cout << "Entity 1 has Transform: " << ecs.Storage[TransformID]->Has(entity1) << std::endl;
+    if (ecs.hasComponent(entity1, TransformID)) {
+        Transform* t = ecs.getComponent<Transform>(entity1, TransformID);
+        std::cout << "Entity 1 Transform scale: " << t->scale << std::endl;
+    }
 
     // Tampons réutilisés à chaque image (taille du mesh de Spot).
     vec4* clip_v = (vec4*)malloc(mesh.vert_count * sizeof(vec4));
@@ -274,6 +282,15 @@ int main(int argc, char** argv) {
     int    fps_count = 0;
     char   title[180];
 
+    bool transparent = false;   // touche T : active/désactive la transparence
+
+    // Particules : l'émetteur est en bas au centre de l'écran.
+    const float emit_x = WIDTH / 2.0f;
+    const float emit_y = HEIGHT - 20.0f;
+    Particle particles[MAX_PARTICLES];
+    particles_init(particles, MAX_PARTICLES, emit_x, emit_y);
+    bool show_particles = true;   // touche P : active/désactive les particules
+
     bool running = true;
     while (running) {
         SDL_Event e;
@@ -281,14 +298,16 @@ int main(int argc, char** argv) {
             if (e.type == SDL_EVENT_QUIT) running = false;
             if (e.type == SDL_EVENT_KEY_DOWN) {
                 if (e.key.key == SDLK_ESCAPE) running = false;
+                if (e.key.key == SDLK_T) transparent = !transparent;
+                if (e.key.key == SDLK_P) show_particles = !show_particles;
                 int pick = (int)e.key.key - (int)SDLK_1;
-                
+
                 if (pick >= 0 && pick < material_count) {
-					for (int id = 1; id <= ecs.entityCount(); id++) {
-						if (ecs.hasComponent(id, RenderID)) {
-							ecs.getComponent<MeshRenderer>(id, RenderID)->material = pick;
-						}
-					}
+                    for (int id = 1; id <= ecs.entityCount(); id++) {
+                        if (ecs.hasComponent(id, RenderID)) {
+                            ecs.getComponent<MeshRenderer>(id, RenderID)->material = pick;
+                        }
+                    }
                 }
             }
         }
@@ -298,7 +317,7 @@ int main(int argc, char** argv) {
         float dt = (float)((double)(now - last) / (double)freq);
         last = now;
 
-        
+
 
         clear(rgb(16, 16, 24));
         clear_zbuffer();
@@ -317,6 +336,7 @@ int main(int argc, char** argv) {
             if (!mr->mesh) continue;
             const Mesh& m = *mr->mesh;
             const Material* material = &materials[mr->material];
+            current_alpha = (transparent && id == entity2) ? 120 : 255;
 
             mat4 model = mat4_mul(
                 mat4_translation(tr->position.x, tr->position.y, tr->position.z),
@@ -348,6 +368,10 @@ int main(int argc, char** argv) {
                     project_and_draw(&out[ot * 3], material, &scene);
             }
         }
+        if (show_particles) {
+            particles_update(particles, MAX_PARTICLES, dt, emit_x, emit_y);
+            particles_draw(particles, MAX_PARTICLES, framebuffer, WIDTH, HEIGHT);
+        }
         font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
 
         SDL_UpdateTexture(screen_tex, NULL, framebuffer, WIDTH * sizeof(uint32_t));
@@ -361,7 +385,7 @@ int main(int argc, char** argv) {
         if (fps_accum >= 1.0) {
             double fps = (double)fps_count / fps_accum;
             double ms = 1000.0 * fps_accum / (double)fps_count;
-            
+
 
             snprintf(hud, sizeof hud, "%.1f FPS", fps);
             int cur = ecs.getComponent<MeshRenderer>(entity1, RenderID)->material;
