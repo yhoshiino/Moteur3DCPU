@@ -2,18 +2,27 @@
 #include <vector>
 #include <iostream>
 #include "componentStorage.h"
+#include <bitset>
+
 
 
 class entityManager {
 private:
 
 	std::vector<IComponentStorage*> Storage;
-	std::vector<bool> Exists{};
+	std::array<uint32_t, MAX_ENTITIES> entityComponents;
 	std::vector<Entity> UsableIDs;
 
 	int counter = 0;
 
 public:
+
+	entityManager() = default;
+	entityManager(const entityManager&) = delete;
+	~entityManager() {
+		for (IComponentStorage* s : Storage) delete s;
+	}
+
 
 	template <typename TComponent>
 	int addComponentType() {
@@ -36,16 +45,18 @@ public:
 		return Storage[componentID]->Has(entity);
 	}
 
-	void addComponent(int entity, int componentID, void* value) {
-		Storage[componentID]->Add(entity, value);
+	void addComponent(Entity e, int componentID, void* value) {
+		Storage[componentID]->Add(e, value);
+		entityComponents[e] |= (1u << componentID);
 	}
 
 	void removeComponent(Entity e, int componentID) {
 		Storage[componentID]->Remove(e);
+		entityComponents[e] &= ~(1u << componentID);
 	};
 
 
-	int createEntity(std::string name = "entity") {
+	Entity createEntity(std::string name = "entity") {
 		(void)name;
 		if (!UsableIDs.empty()) {
 			Entity e = UsableIDs.back();
@@ -63,6 +74,26 @@ public:
 				Storage[i]->Remove(e);
 			}
 		}
+		entityComponents[e] = 0;
 	};
+
+	std::vector<int> FetchAllEntities(int componentsIDs...)
+	{
+		uint32_t searchBitset = (0u | (1u < componentsIDs));
+
+		std::vector<int> value;
+		if (searchBitset == 0) return value;
+
+		for (int e = 0; e < counter; e++) {
+			if ((entityComponents[e] & searchBitset) == searchBitset) {
+				value.push_back(e);
+			}
+		}
+		
+		return value;
+		// Créé le bitset de la recherche avec la liste des componentIDs
+		// Créé le vector des Entity(int) qui respectent le bitset de la recherche
+		// C'est clairement l'endroit ou les performances s'effondrent le plus, un iterator serait déjà moins horrible
+	}
 
 };
