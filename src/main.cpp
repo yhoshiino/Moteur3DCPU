@@ -193,21 +193,14 @@ int main(int argc, char** argv) {
         return 1;
     }
     SDL_Window* window = SDL_CreateWindow("Chapter 12 — Shaders + ECS", WIDTH, HEIGHT, 0);
+	SDL_SetWindowRelativeMouseMode(window, true);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
     SDL_Texture* screen_tex = SDL_CreateTexture(renderer,
         SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
 
-    // ---- Caméra et lumière (inchangées pour l'instant) ----
     const float aspect = (float)WIDTH / (float)HEIGHT;
     const mat4 projection = mat4_perspective(radians(50.0f), aspect, 0.1f, 100.0f);
-    const vec3 eye = vec3_make(0, 0, 3);
-    const vec3 target = vec3_make(0, 0, 0);
-    const vec3 up = vec3_make(0, 1, 0);
-    const mat4 view = mat4_look_at(eye, target, up);
-
     const vec3 light = vec3_normalize(vec3_make(0.4f, 0.8f, 0.45f));
-    const vec3 half_vec = vec3_normalize(vec3_add(light, vec3_make(0, 0, 1)));
-    const Scene scene = { light, half_vec };
 
     const Material materials[] = {
         { "Phong",            shader_phong,   &tex, 0,                 0.18f, 0.55f, true  },
@@ -261,6 +254,7 @@ int main(int argc, char** argv) {
 	ecs.addComponent(entity2, PhysicsSID, (void*)&spin2);
 
     Camera camera1;
+	camera1.sensitivity = 0.0025f;
     ecs.addComponent(camera, CameraID, (void*)&camera1);
     Camera* cam = ecs.getComponent<Camera>(camera, CameraID);
 
@@ -290,11 +284,6 @@ int main(int argc, char** argv) {
                 if (e.key.key == SDLK_ESCAPE) running = false;
                 int pick = (int)e.key.key - (int)SDLK_1;
                 
-                if (e.type == SDL_EVENT_MOUSE_MOTION && SDL_GetWindowRelativeMouseMode(window)) {
-                    cam->yaw += e.motion.xrel * cam->sensitivity;
-                    cam->pitch -= e.motion.yrel * cam->sensitivity;
-                }
-
                 if (pick >= 0 && pick < material_count) {
 					for (int id = 1; id <= ecs.entityCount(); id++) {
 						if (ecs.hasComponent(id, RenderID)) {
@@ -302,6 +291,10 @@ int main(int argc, char** argv) {
 						}
 					}
                 }
+            }
+            if (e.type == SDL_EVENT_MOUSE_MOTION && SDL_GetWindowRelativeMouseMode(window)) {
+                cam->yaw += e.motion.xrel * cam->sensitivity;
+                cam->pitch -= e.motion.yrel * cam->sensitivity;
             }
         }
 

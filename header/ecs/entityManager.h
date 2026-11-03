@@ -79,12 +79,12 @@ public:
 
 	std::vector<int> FetchAllEntities(int componentsIDs...)
 	{
-		uint32_t searchBitset = (0u | (1u < componentsIDs));
+		uint32_t searchBitset = (0u | (1u << componentsIDs));
 
 		std::vector<int> value;
 		if (searchBitset == 0) return value;
 
-		for (int e = 0; e < counter; e++) {
+		for (int e = 0; e <= counter; e++) {
 			if ((entityComponents[e] & searchBitset) == searchBitset) {
 				value.push_back(e);
 			}
