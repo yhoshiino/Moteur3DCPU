@@ -1,39 +1,29 @@
-// ============================================================
-//  mat.h � 4x4 matrices (chapter 5)
-// ------------------------------------------------------------
-//  Chapter 4's matrix module plus the two matrices that make a
-//  3D pipeline: mat_perspective (the projection) and
-//  mat_look_at (the camera/view), plus mat4_mul_vec4 which
-//  keeps the w component the perspective divide needs.
-//
-//  Storage is row-major: m[row][col].
-// ============================================================
 #pragma once
 #include "vec.h"
 #include <math.h>
 
-typedef struct { float m[4][4]; } mat4;
+using mat4 = struct { float m[4][4]; };
 
 static inline mat4 mat4_identity(void) {
     mat4 r = { {{0}} };
-    r.m[0][0] = 1.0f; r.m[1][1] = 1.0f; r.m[2][2] = 1.0f; r.m[3][3] = 1.0f;
+    for (int i = 0; i <= 3; i++) {
+        r.m[i][i] = 1;
+    }
     return r;
 }
 
 static inline mat4 mat4_mul(mat4 a, mat4 b) {
     mat4 r = { {{0}} };
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++) {
-            float s = 0.0f;
-            for (int k = 0; k < 4; k++) s += a.m[i][k] * b.m[k][j];
-            r.m[i][j] = s;
+    for (int i = 0; i <= 3; i++)
+        for (int j = 0; j <= 3; j++) {
+            for (int k = 0; k <= 3; k++) {
+                r.m[i][j] += a.m[i][k] * b.m[k][j];
+            }
         }
     return r;
 }
 
-// Apply a matrix to a point, KEEPING the resulting w. The
-// projection matrix puts depth into w, so unlike chapter 4 we
-// must not discard it � the caller does the perspective divide.
+
 static inline vec4 mat4_mul_vec4(mat4 a, vec4 v) {
     vec4 r;
     r.x = a.m[0][0] * v.x + a.m[0][1] * v.y + a.m[0][2] * v.z + a.m[0][3] * v.w;
@@ -43,12 +33,6 @@ static inline vec4 mat4_mul_vec4(mat4 a, vec4 v) {
     return r;
 }
 
-// Transform a DIRECTION (such as a surface normal) by a matrix.
-// Like transforming a point, but with an implicit w = 0, so the
-// translation column (m[*][3]) is ignored � moving the world doesn't
-// change which way a normal points, only rotating it does. For a
-// pure-rotation matrix this preserves length, so a unit normal stays
-// unit. (Chapter 10.)
 static inline vec3 mat4_mul_dir(mat4 a, vec3 d) {
     return vec3_make(
         a.m[0][0] * d.x + a.m[0][1] * d.y + a.m[0][2] * d.z,
@@ -92,43 +76,16 @@ static inline mat4 mat4_rotation_z(float a) {
     return r;
 }
 
-// ---- The two new matrices for the 3D pipeline ----
 
-// Convert an angle in degrees to radians. The trig functions
-// (sinf, cosf, tanf) all expect radians, but degrees are easier to
-// think in � so callers say radians(60.0f) instead of writing
-// 60.0f * PI / 180.0f by hand.
 static inline float radians(float degrees) {
     return degrees * 3.14159265358979323846f / 180.0f;
 }
 
-// Perspective projection matrix. Inputs:
-//   fov_y_radians : vertical field of view, in radians (use radians())
-//   aspect        : viewport width / height
-//   near, far     : clip-plane distances (both positive, near < far)
-//
-// This builds exactly the matrix written out in README section 5.9.
-// Each assignment below fills in one labelled entry of that matrix:
-//
-//     [ x_scale   0        0          0        ]
-//     [ 0         y_scale  0          0        ]
-//     [ 0         0        z_map_a    z_map_b  ]
-//     [ 0         0        -1         0        ]
-//
-// Reading it: x_scale / y_scale apply the field of view (squeezing
-// or spreading x and y); z_map_a / z_map_b remap depth so the near
-// plane lands at -1 and the far plane at +1 after the divide; and
-// the -1 in the bottom row copies -z into the output's w, which is
-// the "w trick" (section 5.5) that makes the perspective divide work.
-static inline mat4 mat4_perspective(float fov_y_radians, float aspect,
-    float near, float far) {
-    // How strongly to scale y. A narrow fov (zoomed in) gives a big
-    // number; a wide fov gives a small one. Comes from the geometry
-    // of the frustum's half-angle.
-    float y_scale = 1.0f / tanf(fov_y_radians * 0.5f);
-    float x_scale = y_scale / aspect;   // x also corrected for the window shape
+static inline mat4 mat4_perspective(float fov_y_radians, float aspect, float near, float far) {
 
-    // Depth-remap coefficients (so near -> -1, far -> +1 after the divide).
+    float y_scale = 1.0f / tanf(fov_y_radians * 0.5f);
+    float x_scale = y_scale / aspect;
+
     float z_map_a = (far + near) / (near - far);
     float z_map_b = (2.0f * far * near) / (near - far);
 
@@ -137,26 +94,12 @@ static inline mat4 mat4_perspective(float fov_y_radians, float aspect,
     m.m[1][1] = y_scale;
     m.m[2][2] = z_map_a;
     m.m[2][3] = z_map_b;
-    m.m[3][2] = -1.0f;       // out.w = -z  (loads camera depth into w)
+    m.m[3][2] = -1.0f; 
     return m;
 }
 
-// View matrix from three inputs (README section 5.10):
-//   eye    : where the camera IS (a point in the world)
-//   target : the point the camera LOOKS AT (a point in the world)
-//   up     : which way is "up" for the camera (a direction, e.g. (0,1,0))
-//
-// From those we work out the camera's own three axes, then build the
-// matrix that re-expresses the world in those axes (so that, to the
-// projection matrix, the camera sits at the origin looking down -z).
 static inline mat4 mat4_look_at(vec3 eye, vec3 target, vec3 up) {
-    // The camera's three axis directions:
-    //   forward = which way the camera faces. We point it from the
-    //             target back toward the eye, so it becomes the
-    //             camera's +z (the camera looks down its own -z).
-    //   right   = the camera's +x, perpendicular to forward and up.
-    //   cam_up  = the camera's +y, made exactly perpendicular to the
-    //             other two (the input "up" might be a little off).
+
     vec3 forward = vec3_normalize(vec3_sub(eye, target));
     vec3 right = vec3_normalize(vec3_cross(up, forward));
     vec3 cam_up = vec3_cross(forward, right);

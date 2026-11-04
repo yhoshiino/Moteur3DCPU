@@ -1,16 +1,8 @@
-// ============================================================
-//  vec.h — 2D, 3D and 4D vector types
-// ------------------------------------------------------------
-//  vec3 and vec4 as before (chapters 4-5). Chapter 9 adds vec2
-//  for texture coordinates (u, v) — a point in the 2D texture
-//  image, carried per mesh vertex.
-// ============================================================
 #pragma once
-#include <math.h>
 
-typedef struct { float x, y; } vec2;
-typedef struct { float x, y, z; } vec3;
-typedef struct { float x, y, z, w; } vec4;
+using vec2 = struct { float x; float y; };
+using vec3 = struct { float x; float y; float z; };
+using vec4 = struct { float x; float y; float z; float w; };
 
 static inline vec2 vec2_make(float x, float y) {
     vec2 v = { x, y };
@@ -54,7 +46,6 @@ static inline vec3 vec3_normalize(vec3 a) {
     return a;
 }
 
-// Promote a 3D point to a 4D homogeneous point (w = 1).
 static inline vec4 vec4_from_point(vec3 p) {
     vec4 v = { p.x, p.y, p.z, 1.0f };
     return v;
