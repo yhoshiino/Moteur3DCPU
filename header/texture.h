@@ -1,30 +1,9 @@
-// ============================================================
-//  texture.h — load a PNG and sample it (chapter 9)
-// ------------------------------------------------------------
-//  We decode the PNG with stb_image, a single-header public-domain
-//  library (third-party/stb_image.h), then repack its RGBA bytes
-//  into our ARGB8888 uint32_t layout so a sampled texel can be
-//  written straight into the framebuffer.
-//
-//  Two convention notes for the sampler:
-//    - OBJ 'vt' coordinates put v = 0 at the BOTTOM of the image,
-//      but image rows (and stb_image) start at the TOP — so we
-//      flip v when indexing.
-//    - U and V are wrapped into [0, 1] (fractional part) so a
-//      stray out-of-range coordinate can't read past the array.
-//
-//  Sampling here is nearest-neighbour: pick the single closest
-//  texel. It can look blocky up close; chapter 12 adds the
-//  smoother bilinear version.
-// ============================================================
 #pragma once
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-// stb_image is general-purpose and noisier under /W4 than our own
-// code, so we quiet the warnings just around its implementation.
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_NO_HDR
 #define STBI_NO_LINEAR
@@ -39,16 +18,14 @@
 #endif
 
 typedef struct {
-    uint32_t* pixels;     // width * height texels, ARGB8888
+    uint32_t* pixels;
     int       width;
     int       height;
 } Texture;
 
-// Load a PNG into ARGB8888. Returns 1 on success, 0 on failure.
 static int texture_load(const char* path, Texture* out) {
     int w, h, channels;
-    // Ask stb_image for 4 channels; it fills alpha = 255 for images
-    // that don't carry one.
+
     uint8_t* data = stbi_load(path, &w, &h, &channels, 4);
     if (!data) {
         fprintf(stderr, "texture_load: failed on '%s': %s\n",
@@ -60,7 +37,6 @@ static int texture_load(const char* path, Texture* out) {
     out->height = h;
     out->pixels = (uint32_t*)malloc((size_t)w * (size_t)h * sizeof(uint32_t));
 
-    // Repack RGBA8 -> ARGB8888 (our framebuffer's native layout).
     for (int i = 0; i < w * h; i++) {
         uint8_t r = data[i * 4 + 0];
         uint8_t g = data[i * 4 + 1];
@@ -80,9 +56,6 @@ static void texture_free(Texture* tex) {
     tex->width = tex->height = 0;
 }
 
-// Nearest-neighbour sample at texture coordinate (u, v). U and V are
-// wrapped to [0, 1]; v is flipped because OBJ's v = 0 is the image
-// bottom but our pixel array's row 0 is the top.
 static inline uint32_t texture_sample(const Texture* tex, float u, float v) {
     u = u - floorf(u);
     v = v - floorf(v);
@@ -93,20 +66,10 @@ static inline uint32_t texture_sample(const Texture* tex, float u, float v) {
     return tex->pixels[y * tex->width + x];
 }
 
-// Bilinear sample (chapter 12). Instead of snapping to one texel, we
-// fetch the FOUR nearest and blend them by how far the exact UV sits
-// between them. This smooths the blocky stair-steps nearest-neighbour
-// gives when the texture is magnified (camera close to the surface).
-//
-// The four corner weights sum to 1:
-//     w00 = (1-tx)(1-ty)   w10 = tx(1-ty)
-//     w01 = (1-tx)·ty      w11 = tx·ty
 static inline uint32_t texture_sample_bilinear(const Texture* tex, float u, float v) {
     u = u - floorf(u);
     v = v - floorf(v);
 
-    // Continuous texel position. The (size-1) keeps u=v=1 landing on
-    // the last texel instead of one past the edge.
     float fx = u * (float)(tex->width - 1);
     float fy = (1.0f - v) * (float)(tex->height - 1);
 
@@ -114,7 +77,7 @@ static inline uint32_t texture_sample_bilinear(const Texture* tex, float u, floa
     int   y0 = (int)floorf(fy);
     int   x1 = x0 + 1;
     int   y1 = y0 + 1;
-    float tx = fx - (float)x0;     // fractional position inside the cell
+    float tx = fx - (float)x0;
     float ty = fy - (float)y0;
 
     if (x0 < 0) x0 = 0; if (x0 >= tex->width)  x0 = tex->width - 1;

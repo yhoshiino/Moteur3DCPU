@@ -1,15 +1,3 @@
-// ============================================================
-//  Chapter 12 (+) — Shaders and materials
-// ------------------------------------------------------------
-//  The rasterizer no longer decides the colour of a pixel. It
-//  interpolates the per-pixel data (normal, UV, depth), packs it
-//  in a FragmentInput, and asks the object's MATERIAL which
-//  SHADER to call (see material.h). The shader returns the colour.
-//
-//  Keys 1..5 switch the material of the cow at runtime.
-//  Key 1 (Phong) must look exactly like chapter 12.
-// ============================================================
-
 #include <SDL3/SDL.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -62,10 +50,6 @@ static inline int clampi(int v, int lo, int hi) {
 
 // Transparence : alpha de l'objet en cours de dessin (255 = opaque).
 static uint8_t current_alpha = 255;
-
-// ============================================================
-//  Rasterizer: same as chapter 12, except the end of the pixel loop
-// ============================================================
 
 static void draw_triangle_shaded(
     int x0, int y0, float z0, float iw0, vec2 uv0, vec3 n0,
@@ -155,7 +139,7 @@ static void project_and_draw(const clip_vertex* tri, const Material* mat, const 
         screen_x[1], screen_y[1], ndc_z[1], inv_w[1], tri[1].uv, tri[1].normal,
         screen_x[2], screen_y[2], ndc_z[2], inv_w[2], tri[2].uv, tri[2].normal,
         mat, scene);
-}   // <<< une seule accolade fermante, à la fin
+} 
 
 
 static void compute_face_normals(const Mesh* mesh, vec3* out) {
