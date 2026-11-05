@@ -193,7 +193,7 @@ int main(int argc, char** argv) {
     compute_vertex_normals(&mesh, face_normals, vertex_normals);
 
     Font font;
-    if (!font_load(WARP_ASSET_DIR "/fonts/Basic Light.ttf", 20.0f, &font)) return 1;
+    if (!font.load(WARP_ASSET_DIR "/fonts/Basic Light.ttf", 20.0f)) return 1;
     char hud[64] = "Hello Spot";
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -419,7 +419,7 @@ int main(int argc, char** argv) {
             particles_update(particles, MAX_PARTICLES, dt, emit_x, emit_y);
             particles_draw(particles, MAX_PARTICLES, framebuffer, WIDTH, HEIGHT);
         }
-        font_draw_text(framebuffer, WIDTH, HEIGHT, &font, 10, 24, hud, rgb(255, 255, 255));
+        font.drawText(framebuffer, WIDTH, HEIGHT, 10, 24, hud, rgb(255, 255, 255));
 
         SDL_UpdateTexture(screen_tex, NULL, framebuffer, WIDTH * sizeof(uint32_t));
         SDL_RenderClear(renderer);
@@ -447,7 +447,6 @@ int main(int argc, char** argv) {
 
     free(clip_v); free(normal_world);
     free(face_normals); free(vertex_normals);
-    font_free(&font);
     SDL_DestroyTexture(screen_tex);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
