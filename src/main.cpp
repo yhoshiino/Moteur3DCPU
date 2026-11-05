@@ -159,7 +159,7 @@ static void project_and_draw(const clip_vertex* tri, const Material* mat, const 
 
 
 static void compute_face_normals(const Mesh* mesh, vec3* out) {
-    for (int f = 0; f < mesh->face_count; f++) {
+    for (int f = 0; f < mesh->face_count(); f++) {
         vec3 v0 = mesh->verts[mesh->faces[f * 3 + 0]];
         vec3 v1 = mesh->verts[mesh->faces[f * 3 + 1]];
         vec3 v2 = mesh->verts[mesh->faces[f * 3 + 2]];
@@ -168,27 +168,27 @@ static void compute_face_normals(const Mesh* mesh, vec3* out) {
 }
 
 static void compute_vertex_normals(const Mesh* mesh, const vec3* face_normals, vec3* out) {
-    for (int i = 0; i < mesh->vert_count; i++) out[i] = vec3_make(0, 0, 0);
-    for (int f = 0; f < mesh->face_count; f++)
+    for (int i = 0; i < mesh->vert_count(); i++) out[i] = vec3_make(0, 0, 0);
+    for (int f = 0; f < mesh->face_count(); f++)
         for (int k = 0; k < 3; k++)
             out[mesh->faces[f * 3 + k]] = vec3_add(out[mesh->faces[f * 3 + k]], face_normals[f]);
-    for (int i = 0; i < mesh->vert_count; i++) out[i] = vec3_normalize(out[i]);
+    for (int i = 0; i < mesh->vert_count(); i++) out[i] = vec3_normalize(out[i]);
 }
 
 int main(int argc, char** argv) {
     (void)argc; (void)argv;
 
     Mesh mesh;
-    if (!mesh_load(WARP_ASSET_DIR "/spot.obj", &mesh)) return 1;
+    if (!mesh.load(WARP_ASSET_DIR "/spot.obj")) return 1;
     printf("loaded spot.obj: %d vertices, %d uvs, %d faces\n",
-        mesh.vert_count, mesh.uv_count, mesh.face_count);
+        mesh.vert_count(), mesh.uv_count(), mesh.face_count());
 
     Texture tex;
-    if (!texture_load(WARP_ASSET_DIR "/spot_texture.png", &tex)) return 1;
+    if (!tex.load(WARP_ASSET_DIR "/spot_texture.png")) return 1;
     printf("loaded spot_texture.png: %dx%d texels\n", tex.width, tex.height);
 
-    vec3* face_normals = (vec3*)malloc(mesh.face_count * sizeof(vec3));
-    vec3* vertex_normals = (vec3*)malloc(mesh.vert_count * sizeof(vec3));
+    vec3* face_normals = (vec3*)malloc(mesh.face_count() * sizeof(vec3));
+    vec3* vertex_normals = (vec3*)malloc(mesh.vert_count() * sizeof(vec3));
     compute_face_normals(&mesh, face_normals);
     compute_vertex_normals(&mesh, face_normals, vertex_normals);
 
@@ -273,8 +273,8 @@ int main(int argc, char** argv) {
 	}
 
     // Tampons réutilisés à chaque image (taille du mesh de Spot).
-    vec4* clip_v = (vec4*)malloc(mesh.vert_count * sizeof(vec4));
-    vec3* normal_world = (vec3*)malloc(mesh.vert_count * sizeof(vec3));
+    vec4* clip_v = (vec4*)malloc(mesh.vert_count() * sizeof(vec4));
+    vec3* normal_world = (vec3*)malloc(mesh.vert_count() * sizeof(vec3));
 
     const Uint64 freq = SDL_GetPerformanceFrequency();
     const Uint64 start = SDL_GetPerformanceCounter();
@@ -390,12 +390,12 @@ int main(int argc, char** argv) {
                 mat4_mul(mat4_rotation_y(tr->rotation_y), mat4_scale(tr->scale)));
             mat4 mvp = mat4_mul(projection, mat4_mul(view, model));
 
-            for (int i = 0; i < m.vert_count; i++) {
+            for (int i = 0; i < m.vert_count(); i++) {
                 clip_v[i] = mat4_mul_vec4(mvp, vec4_from_point(m.verts[i]));
                 normal_world[i] = mat4_mul_dir(model, vertex_normals[i]);
             }
 
-            for (int fidx = 0; fidx < m.face_count; fidx++) {
+            for (int fidx = 0; fidx < m.face_count(); fidx++) {
                 int a = m.faces[fidx * 3 + 0];
                 int b = m.faces[fidx * 3 + 1];
                 int c = m.faces[fidx * 3 + 2];
@@ -447,9 +447,7 @@ int main(int argc, char** argv) {
 
     free(clip_v); free(normal_world);
     free(face_normals); free(vertex_normals);
-    mesh_free(&mesh);
     font_free(&font);
-    texture_free(&tex);
     SDL_DestroyTexture(screen_tex);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
