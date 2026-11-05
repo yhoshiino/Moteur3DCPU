@@ -9,7 +9,10 @@ static inline uint32_t rgb(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 static inline float pow32(float x) {
-    float x2 = x * x, x4 = x2 * x2, x8 = x4 * x4, x16 = x8 * x8;
+    float x2 = x * x, 
+          x4 = x2 * x2, 
+          x8 = x4 * x4, 
+          x16 = x8 * x8;
     return x16 * x16;
 }
 
@@ -24,10 +27,10 @@ static inline uint32_t color_phong(uint32_t texel, float diffuse_k, float spec_k
         | ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
 }
 
-static inline uint32_t color_blend(uint32_t src, uint32_t dst, uint8_t alpha) {
+static inline uint32_t color_blend(uint32_t src, uint32_t destination, uint8_t alpha) {
     float a = (float)alpha / 255.0f;
-    float r = (float)((src >> 16) & 0xFF) * a + (float)((dst >> 16) & 0xFF) * (1.0f - a);
-    float g = (float)((src >> 8) & 0xFF) * a + (float)((dst >> 8) & 0xFF) * (1.0f - a);
-    float b = (float)(src & 0xFF) * a + (float)(dst & 0xFF) * (1.0f - a);
+    float r = (float)((src >> 16) & 0xFF) * a + (float)((destination >> 16) & 0xFF) * (1.0f - a);
+    float g = (float)((src >> 8) & 0xFF) * a + (float)((destination >> 8) & 0xFF) * (1.0f - a);
+    float b = (float)(src & 0xFF) * a + (float)(destination & 0xFF) * (1.0f - a);
     return rgb((uint8_t)r, (uint8_t)g, (uint8_t)b);
 }

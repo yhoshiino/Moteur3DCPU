@@ -32,9 +32,12 @@ typedef struct Material {
 } Material;
 
 static inline uint32_t sample_texture(const Material* mat, vec2 uv) {
-    return mat->bilinear
-        ? mat->tex->sampleBilinear(uv.x, uv.y)
-        : mat->tex->sample(uv.x, uv.y);
+    if (mat->bilinear) {
+        return texture_sample_bilinear(mat->tex, uv.x, uv.y);
+    }
+    else {
+        return texture_sample(mat->tex, uv.x, uv.y);
+    }
 }
 
 static inline uint32_t shader_phong(const FragmentInput* in, const Material* mat, const Scene* scene) {
