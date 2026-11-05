@@ -1,42 +1,45 @@
 #pragma once
+
 #include <stdint.h>
 #include <stdbool.h>
-
+#include <cmath>
 #include "vec.h"
 #include "texture.h"
 #include "color.h"
 
-typedef struct {
+struct Material;
+struct Scene;
+
+struct Scene {
+    vec3 light;
+    vec3 half_vec;
+};
+
+struct FragmentInput {
     vec3  normal;
     vec2  uv;
     float depth;
-} FragmentInput;
+};
 
-typedef struct {
-    vec3 light;
-    vec3 half_vec;
-} Scene;
+typedef uint32_t(*FragmentShader)(const FragmentInput* in, const Material* mat, const Scene* scene);
 
-struct Material;
-typedef uint32_t(*FragmentShader)(const FragmentInput* in,
-    const struct Material* mat, const Scene* scene);
-
-typedef struct Material {
+struct Material {
     const char* name;
     FragmentShader shader;
-    const Texture* tex;
+    Texture*       tex;
     uint32_t       color;
     float          ambient;
     float          spec_strength;
     bool           bilinear;
-} Material;
+};
 
 static inline uint32_t sample_texture(const Material* mat, vec2 uv) {
+    if (!mat->tex) return 0xFF000000u;
     if (mat->bilinear) {
-        return texture_sample_bilinear(mat->tex, uv.x, uv.y);
+        return mat->tex->sampleBilinear(uv.x, uv.y);
     }
     else {
-        return texture_sample(mat->tex, uv.x, uv.y);
+        return mat->tex->sample(uv.x, uv.y);
     }
 }
 
